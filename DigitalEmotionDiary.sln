@@ -5,6 +5,8 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalEmotionDiary", "DigitalEmotionDiary.csproj", "{3590E5D4-BDFB-4AB0-89F9-C3A87F52D70A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalEmotionDiary.Tests", "..\DigitalEmotionDiary.Tests\DigitalEmotionDiary.Tests.csproj", "{C23CD713-B7E6-4719-89B1-304D16157CCC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3590E5D4-BDFB-4AB0-89F9-C3A87F52D70A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3590E5D4-BDFB-4AB0-89F9-C3A87F52D70A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3590E5D4-BDFB-4AB0-89F9-C3A87F52D70A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C23CD713-B7E6-4719-89B1-304D16157CCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C23CD713-B7E6-4719-89B1-304D16157CCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C23CD713-B7E6-4719-89B1-304D16157CCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C23CD713-B7E6-4719-89B1-304D16157CCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

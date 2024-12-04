@@ -8,22 +8,22 @@ namespace DigitalEmotionDiary.Models
 {
 	public class DiaryEntry
 	{
-	 private long Id { get; set; }
-	 private string? Title { get; set; }
-	 private string? content;
+	 public long Id { get; set; }
+	 public string? Title { get; set; }
+	 public string? Content;
 
-		private string? GetContent()
+		public string? GetContent()
 		{
-			return content;
+			return Content;
 		}
 
-		private void SetContent(string? value)
+		public void SetContent(string? value)
 		{
-			content = value;
+			Content = value;
 		}
 
-	 private string? Emotion { get; set; }
-	 private DateTime Date { get; set; }
-	 private bool IsPublic { get; set; }
+	 public string? Emotion { get; set; }
+	 public DateTime Date { get; set; }
+	 public bool IsPublic { get; set; }
 	}
 }
