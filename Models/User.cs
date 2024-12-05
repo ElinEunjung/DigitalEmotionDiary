@@ -12,10 +12,11 @@ namespace DigitalEmotionDiary.Models
 		public required string UserName { get; set; }
 		public required string Email { get; set; }
 		public required string Password { get; set; } // TODO: Create Password DTO?
-
+		public string? ProfileImagePath { get; set; }
+		
 		// Navigation property for related DiaryEntries
-		public ICollection<DiaryEntry> DiaryEntries { get; set; } = new List<DiaryEntry>();  // One to Many
-		public ICollection<Comment>? Comments { get; set; } = new List<Comment>(); // One to Many
+		public ICollection<DiaryEntry> DiaryEntries { get; set; } = [];  // One to Many
+		public ICollection<Comment>? Comments { get; set; } = []; // One to Many
 	}
 
 	
