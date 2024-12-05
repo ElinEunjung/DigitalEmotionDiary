@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace DigitalEmotionDiary.Models
 {
-	internal class Comment
+	public class Comment
 	{
+		public long Id { get; set; }
+		public long DiaryEntryId { get; set; }
+		public long UserId { get; set; }
+		public required string Content { get; set; }
+		public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+		// Navigation property
+		public DiaryEntry? DiaryEntry { get; set; }
+		public User? User { get; set; }
 	}
 }
