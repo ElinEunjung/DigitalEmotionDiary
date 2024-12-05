@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace DigitalEmotionDiary.Models
 {
-	internal class Tag
+	public class Tag
 	{
+		public long Id { get; set; }
+		public required string Name { get; set; }
+		public string? Color { get; set; }
+
+		// Navigation property
+		public ICollection<EntryTag>? EntryTags { get; set; } // One to Many
 	}
 }

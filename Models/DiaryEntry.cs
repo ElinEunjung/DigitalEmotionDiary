@@ -12,7 +12,7 @@ namespace DigitalEmotionDiary.Models
 		 public required string Title { get; set; }
 		 public required string Content { get; set; }
 
-		 public required Emotion Mood { get; set; }
+		 public required EmotionType Emotion{ get; set; }
 		 public DateTime CreatedAt { get; set; } = DateTime.Now;
 		 public bool IsPublic { get; set; } = false;
 
@@ -28,5 +28,4 @@ namespace DigitalEmotionDiary.Models
 	
 	}
 
-	
 }

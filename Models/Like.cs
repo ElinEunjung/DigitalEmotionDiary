@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace DigitalEmotionDiary.Models
 {
-	internal class Like
-	{
+	public class Like
+{
+		public long Id { get; set; }
+		public long DiaryEntryId { get; set; }
+		public long UserId { get; set; }
+
+		// Navigation property
+		public DiaryEntry? DiaryEntry { get; set; } 
+		public User? User { get; set; } 
 	}
 }

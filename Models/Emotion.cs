@@ -24,9 +24,9 @@ namespace DigitalEmotionDiary.Models
 
 		public string BackgroundColor {
 			get
-			{
-				return EmotionColors[CurrentEmotion];
-			}
+				{
+					return EmotionColors[CurrentEmotion];
+				}
 		}
 
 		//public void DisplayEmotion()

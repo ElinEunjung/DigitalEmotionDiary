@@ -1,22 +1,22 @@
 ﻿
-using Microsoft.Data.Sqlite;
+//using Microsoft.Data.Sqlite;
 
-namespace DigitalEmotionDiary.Services
-{
-	internal class SQLiteCommand : IDisposable
-	{
-		public SQLiteCommand(string createTableQuery, SqliteConnection connection)
-		{
-		}
+//namespace DigitalEmotionDiary.Services
+//{
+//	internal class SQLiteCommand : IDisposable
+//	{
+//		public SQLiteCommand(string createTableQuery, SqliteConnection connection)
+//		{
+//		}
 
-		public void Dispose()
-		{
-			throw new NotImplementedException();
-		}
+//		public void Dispose()
+//		{
+//			throw new NotImplementedException();
+//		}
 
-		internal void ExecuteNonQuery()
-		{
-			throw new NotImplementedException();
-		}
-	}
-}
+//		internal void ExecuteNonQuery()
+//		{
+//			throw new NotImplementedException();
+//		}
+//	}
+//}
