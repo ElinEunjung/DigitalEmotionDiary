@@ -8,22 +8,25 @@ namespace DigitalEmotionDiary.Models
 {
 	public class DiaryEntry
 	{
-	 public long Id { get; set; }
-	 public string? Title { get; set; }
-	 public string? Content;
+		 public long Id { get; set; }
+		 public required string Title { get; set; }
+		 public required string Content { get; set; }
 
-		public string? GetContent()
-		{
-			return Content;
-		}
+		 public required Emotion Mood { get; set; }
+		 public DateTime CreatedAt { get; set; } = DateTime.Now;
+		 public bool IsPublic { get; set; } = false;
 
-		public void SetContent(string? value)
-		{
-			Content = value;
-		}
+		// Foreign key 
+		public long UserId { get; set; } 
 
-	 public string? Emotion { get; set; }
-	 public DateTime Date { get; set; }
-	 public bool IsPublic { get; set; }
+
+		// Navigation Properties
+		public User? User { get; set; } 
+		public ICollection<EntryTag>? EntryTags { get; set; } // Middle table for Many to many
+		public ICollection<Comment>? Comments { get; set; } // One to Many
+		public ICollection<Like>? Likes { get; set; } // One to Many
+	
 	}
+
+	
 }

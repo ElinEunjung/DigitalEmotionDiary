@@ -6,11 +6,19 @@ using System.Threading.Tasks;
 
 namespace DigitalEmotionDiary.Models
 {
-	internal class User
+	public class User
 	{
-		private long Id {  get; set; }
-		private string? UserName { get; set; }
-		private string? Emaail { get; set; }
-		private string? Password { get; set; }
+		public long Id {  get; set; }
+		public required string UserName { get; set; }
+		public required string Email { get; set; }
+		public required string Password { get; set; } // TODO: Create Password DTO?
+
+		// Navigation property for related DiaryEntries
+		public ICollection<DiaryEntry> DiaryEntries { get; set; } = new List<DiaryEntry>();  // One to Many
+		public ICollection<Comment>? Comments { get; set; } = new List<Comment>(); // One to Many
 	}
+
+	
 }
+
+
