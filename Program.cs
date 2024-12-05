@@ -6,17 +6,8 @@ namespace DigitalEmotionDiary
 	{
 		static void Main(string[] args)
 		{
-			var dbService = new DatabaseService();
-			dbService.InitializeDatabase();
-
-			if (dbService.TestConnection())
-			{
-				Console.WriteLine("Database connection successful!");
-			}
-			else
-			{
-				Console.WriteLine("Database connection failed!");
-			}
+			//DigitalEmotionDiaryDbContext db = new();
+			
 		}
 	}
 }

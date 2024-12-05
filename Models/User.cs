@@ -9,9 +9,9 @@ namespace DigitalEmotionDiary.Models
 	public class User
 	{
 		public long Id {  get; set; }
-		public required string UserName { get; set; }
+		public required string UserName { get; set; } = string.Empty;
 		public required string Email { get; set; }
-		public required string Password { get; set; } // TODO: Create Password DTO?
+		public required string Password { get; set; } 
 		public string? ProfileImagePath { get; set; }
 		
 		// Navigation property for related DiaryEntries

@@ -9,6 +9,8 @@ namespace DigitalEmotionDiary.Models
 	public class Like
 {
 		public long Id { get; set; }
+
+		// Foreign key
 		public long DiaryEntryId { get; set; }
 		public long UserId { get; set; }
 

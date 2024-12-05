@@ -9,10 +9,13 @@ namespace DigitalEmotionDiary.Models
 	public class Comment
 	{
 		public long Id { get; set; }
-		public long DiaryEntryId { get; set; }
-		public long UserId { get; set; }
 		public required string Content { get; set; }
 		public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+		// Foreign key
+		public long DiaryEntryId { get; set; }
+		public long UserId { get; set; }
+
 
 		// Navigation property
 		public DiaryEntry? DiaryEntry { get; set; }
