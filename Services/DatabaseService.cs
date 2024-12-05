@@ -10,7 +10,7 @@ namespace DigitalEmotionDiary.Services
 	public class DatabaseService
 	{
 		private const string ConnectionString =
-			"Data Source=Data/database.db;Version=3;";
+			"Data Source=DataAccess/database.db;";
 		public void InitializeDatabase()
 		{
 			using (var connection = new SqliteConnection(ConnectionString))
