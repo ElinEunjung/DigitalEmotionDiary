@@ -23,6 +23,7 @@ namespace DigitalEmotionDiary.Models
 
 		// Navigation Properties
 		public User? User { get; set; } 
+		public EmotionType? EmotionType { get; set; }
 		public ICollection<EntryTag>? EntryTags { get; set; } // Middle table for Many to many
 		public ICollection<Comment>? Comments { get; set; } // One to Many
 		public ICollection<Like>? Likes { get; set; } // One to Many

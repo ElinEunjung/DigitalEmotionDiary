@@ -1,4 +1,4 @@
-﻿using DigitalEmotionDiary.Services;
+﻿
 
 namespace DigitalEmotionDiary
 {
@@ -6,6 +6,7 @@ namespace DigitalEmotionDiary
 	{
 		static void Main(string[] args)
 		{
+             Console.WriteLine("Hello world");
 			//DigitalEmotionDiaryDbContext db = new();
 			
 		}

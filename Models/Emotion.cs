@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace DigitalEmotionDiary.Models
 {
-	public class Emotion(EmotionType emotion)
+	public class Emotion
 	{
-		public EmotionType CurrentEmotion { get; set; } = emotion;
+		public Emotion() { }
+		public EmotionType CurrentEmotion { get; set; }
+		public Emotion(EmotionType emotion)
+		{
+			this.CurrentEmotion = emotion;
+		}
 
 		public static Dictionary<EmotionType, string> EmotionColors => new()
 		{
@@ -22,16 +27,9 @@ namespace DigitalEmotionDiary.Models
 			{ EmotionType.Neutral, "White" }
 		};
 
-		public string BackgroundColor {
-			get
-				{
-					return EmotionColors[CurrentEmotion];
-				}
-		}
+		public string BackgroundColor => EmotionColors.ContainsKey(CurrentEmotion)
+					? EmotionColors[CurrentEmotion]
+					: "Unknown";
 
-		//public void DisplayEmotion()
-		//{
-		//	Console.WriteLine($"Current Emotion: {CurrentEmotion}, Background Color: {BackgroundColor}")
-		//}
 	}
 }
