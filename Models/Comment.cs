@@ -10,7 +10,7 @@ namespace DigitalEmotionDiary.Models
 	{
 		public long Id { get; set; }
 		public required string Content { get; set; }
-		public DateTime CreatedAt { get; set; } = DateTime.Now;
+		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
 		// Foreign key
 		public long DiaryEntryId { get; set; }

@@ -6,15 +6,11 @@ using System.Threading.Tasks;
 
 namespace DigitalEmotionDiary.Models
 {
-	public enum EmotionType
+	public class EmotionType
 	{
-		Happy,
-		Energized,
-		Tired,
-		Anxious,
-		Stressed,
-		Sad,
-		Annoyed,
-		Neutral
+		public int Id { get; set; }
+		public required string Name { get; set; }
+
+		public ICollection<Emotion> Emotions { get; set; } = [];
 	}
 }

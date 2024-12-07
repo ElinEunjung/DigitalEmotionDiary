@@ -8,28 +8,15 @@ namespace DigitalEmotionDiary.Models
 {
 	public class Emotion
 	{
-		public Emotion() { }
-		public EmotionType CurrentEmotion { get; set; }
-		public Emotion(EmotionType emotion)
-		{
-			this.CurrentEmotion = emotion;
-		}
+		public int Id { get; set; }
+		public int EmotionTypeId { get; set; }
+		public required string BackgroundColor { get; set; }
 
-		public static Dictionary<EmotionType, string> EmotionColors => new()
-		{
-			{ EmotionType.Happy, "Yellow" },
-			{ EmotionType.Energized, "Orange" },
-			{ EmotionType.Tired, "Beige" },
-			{ EmotionType.Anxious, "Brown" },
-			{ EmotionType.Stressed, "Light Red" },
-			{ EmotionType.Sad, "Grey/Black" },
-			{ EmotionType.Annoyed, "Red" },
-			{ EmotionType.Neutral, "White" }
-		};
 
-		public string BackgroundColor => EmotionColors.ContainsKey(CurrentEmotion)
-					? EmotionColors[CurrentEmotion]
-					: "Unknown";
+		// Navigation property
+		public EmotionType? EmotionType { get; set; } = null;
+
+		public ICollection<DiaryEntry> DiaryEntries { get; set; } = [];
 
 	}
 }

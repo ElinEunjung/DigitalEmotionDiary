@@ -3,22 +3,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace DigitalEmotionDiary.Migrations
 {
     /// <inheritdoc />
-    public partial class ConfigureDiaryEntryEntryTagRelationship : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Emotion",
+                name: "EmotionType",
                 columns: table => new
                 {
-                    CurrentEmotion = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_EmotionType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,6 +57,26 @@ namespace DigitalEmotionDiary.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Emotion",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    EmotionTypeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    BackgroundColor = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Emotion", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Emotion_EmotionType_EmotionTypeId",
+                        column: x => x.EmotionTypeId,
+                        principalTable: "EmotionType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DiaryEntry",
                 columns: table => new
                 {
@@ -59,15 +84,20 @@ namespace DigitalEmotionDiary.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", nullable: false),
                     Content = table.Column<string>(type: "TEXT", nullable: false),
-                    Emotion = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsPublic = table.Column<bool>(type: "INTEGER", nullable: false),
                     UserId = table.Column<long>(type: "INTEGER", nullable: false),
-                    EmotionType = table.Column<int>(type: "INTEGER", nullable: true)
+                    EmotionId = table.Column<long>(type: "INTEGER", nullable: false),
+                    EmotionId1 = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DiaryEntry", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DiaryEntry_Emotion_EmotionId1",
+                        column: x => x.EmotionId1,
+                        principalTable: "Emotion",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_DiaryEntry_User_UserId",
                         column: x => x.UserId,
@@ -176,6 +206,36 @@ namespace DigitalEmotionDiary.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "EmotionType",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Happy" },
+                    { 2, "Energized" },
+                    { 3, "Tired" },
+                    { 4, "Anxious" },
+                    { 5, "Stressed" },
+                    { 6, "Sad" },
+                    { 7, "Annoyed" },
+                    { 8, "Neutral" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Emotion",
+                columns: new[] { "Id", "BackgroundColor", "EmotionTypeId" },
+                values: new object[,]
+                {
+                    { 1, "Yellow", 1 },
+                    { 2, "Orange", 2 },
+                    { 3, "Beige", 3 },
+                    { 4, "Brown", 4 },
+                    { 5, "Light Red", 5 },
+                    { 6, "Grey/Black", 6 },
+                    { 7, "Red", 7 },
+                    { 8, "White", 8 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Comment_DiaryEntryId",
                 table: "Comment",
@@ -187,9 +247,19 @@ namespace DigitalEmotionDiary.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DiaryEntry_EmotionId1",
+                table: "DiaryEntry",
+                column: "EmotionId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DiaryEntry_UserId",
                 table: "DiaryEntry",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Emotion_EmotionTypeId",
+                table: "Emotion",
+                column: "EmotionTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EntryTag_TagId",
@@ -219,9 +289,6 @@ namespace DigitalEmotionDiary.Migrations
                 name: "Comment");
 
             migrationBuilder.DropTable(
-                name: "Emotion");
-
-            migrationBuilder.DropTable(
                 name: "EntryTag");
 
             migrationBuilder.DropTable(
@@ -237,7 +304,13 @@ namespace DigitalEmotionDiary.Migrations
                 name: "DiaryEntry");
 
             migrationBuilder.DropTable(
+                name: "Emotion");
+
+            migrationBuilder.DropTable(
                 name: "User");
+
+            migrationBuilder.DropTable(
+                name: "EmotionType");
         }
     }
 }
