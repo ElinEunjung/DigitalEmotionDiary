@@ -1,14 +1,7 @@
 ﻿using DigitalEmotionDiary.Models;
 using DigitalEmotionDiary.Models.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace DigitalEmotionDiary.Data
 {
@@ -43,7 +36,9 @@ namespace DigitalEmotionDiary.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(@"Data Source = Resources/DigitalEmotionDiary.db");
-        }
+			optionsBuilder.ConfigureWarnings(warnings =>
+	        warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+		}
 
 
     }

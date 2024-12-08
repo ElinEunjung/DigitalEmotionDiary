@@ -8,7 +8,7 @@ namespace DigitalEmotionDiary.Models
 {
 	public class EntryTag
 	{
-		
+		public long Id { get; set; }
 		public long DiaryEntryId { get; set; }  
 		public long TagId { get; set; }
 

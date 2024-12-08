@@ -42,14 +42,14 @@ namespace DigitalEmotionDiary.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comment", (string)null);
+                    b.ToTable("Comment");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
                             Content = "Congraturation! Woohoo!",
-                            CreatedAt = new DateTime(2024, 12, 8, 2, 12, 42, 105, DateTimeKind.Utc).AddTicks(7796),
+                            CreatedAt = new DateTime(2024, 12, 8, 3, 33, 28, 484, DateTimeKind.Utc).AddTicks(3907),
                             DiaryEntryId = 1L,
                             UserId = 2L
                         },
@@ -57,7 +57,7 @@ namespace DigitalEmotionDiary.Migrations
                         {
                             Id = 2L,
                             Content = "We need to fight for democracy!",
-                            CreatedAt = new DateTime(2024, 12, 8, 2, 12, 42, 105, DateTimeKind.Utc).AddTicks(8156),
+                            CreatedAt = new DateTime(2024, 12, 8, 3, 33, 28, 484, DateTimeKind.Utc).AddTicks(4223),
                             DiaryEntryId = 2L,
                             UserId = 2L
                         },
@@ -65,7 +65,7 @@ namespace DigitalEmotionDiary.Migrations
                         {
                             Id = 3L,
                             Content = "awwww so happy for you!",
-                            CreatedAt = new DateTime(2024, 12, 8, 2, 12, 42, 105, DateTimeKind.Utc).AddTicks(8158),
+                            CreatedAt = new DateTime(2024, 12, 8, 3, 33, 28, 484, DateTimeKind.Utc).AddTicks(4226),
                             DiaryEntryId = 2L,
                             UserId = 1L
                         });
@@ -106,14 +106,14 @@ namespace DigitalEmotionDiary.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("DiaryEntry", (string)null);
+                    b.ToTable("DiaryEntry");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
                             Content = "Han Kang, South korean writer won the Nobel Prize in Literature! I'm so proud of her",
-                            CreatedAt = new DateTime(2024, 12, 8, 2, 12, 42, 101, DateTimeKind.Utc).AddTicks(1495),
+                            CreatedAt = new DateTime(2024, 12, 8, 3, 33, 28, 479, DateTimeKind.Utc).AddTicks(8234),
                             EmotionId = 1,
                             ImageId = 1L,
                             IsPublic = true,
@@ -124,7 +124,7 @@ namespace DigitalEmotionDiary.Migrations
                         {
                             Id = 2L,
                             Content = "An idiot declared martial law today, luckly paliament overruled it in two hours, could save our democracy at the end. What a drama! ",
-                            CreatedAt = new DateTime(2024, 12, 8, 2, 12, 42, 101, DateTimeKind.Utc).AddTicks(2102),
+                            CreatedAt = new DateTime(2024, 12, 8, 3, 33, 28, 479, DateTimeKind.Utc).AddTicks(8847),
                             EmotionId = 4,
                             ImageId = 2L,
                             IsPublic = true,
@@ -135,7 +135,7 @@ namespace DigitalEmotionDiary.Migrations
                         {
                             Id = 3L,
                             Content = "I adapted new cat, she's so adorable!",
-                            CreatedAt = new DateTime(2024, 12, 8, 2, 12, 42, 101, DateTimeKind.Utc).AddTicks(2105),
+                            CreatedAt = new DateTime(2024, 12, 8, 3, 33, 28, 479, DateTimeKind.Utc).AddTicks(8851),
                             EmotionId = 2,
                             ImageId = 3L,
                             IsPublic = true,
@@ -162,7 +162,7 @@ namespace DigitalEmotionDiary.Migrations
                     b.HasIndex("EmotionTypeId")
                         .IsUnique();
 
-                    b.ToTable("Emotion", (string)null);
+                    b.ToTable("Emotion");
 
                     b.HasData(
                         new
@@ -227,7 +227,7 @@ namespace DigitalEmotionDiary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmotionType", (string)null);
+                    b.ToTable("EmotionType");
 
                     b.HasData(
                         new
@@ -274,31 +274,40 @@ namespace DigitalEmotionDiary.Migrations
 
             modelBuilder.Entity("DigitalEmotionDiary.Models.EntryTag", b =>
                 {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
                     b.Property<long>("DiaryEntryId")
                         .HasColumnType("INTEGER");
 
                     b.Property<long>("TagId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("DiaryEntryId", "TagId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiaryEntryId");
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("EntryTag", (string)null);
+                    b.ToTable("EntryTag");
 
                     b.HasData(
                         new
                         {
+                            Id = 1L,
                             DiaryEntryId = 1L,
                             TagId = 1L
                         },
                         new
                         {
+                            Id = 2L,
                             DiaryEntryId = 2L,
                             TagId = 2L
                         },
                         new
                         {
+                            Id = 3L,
                             DiaryEntryId = 3L,
                             TagId = 1L
                         });
@@ -327,7 +336,7 @@ namespace DigitalEmotionDiary.Migrations
 
                     b.HasIndex("DiaryEntryId");
 
-                    b.ToTable("Image", (string)null);
+                    b.ToTable("Image");
 
                     b.HasData(
                         new
@@ -336,7 +345,7 @@ namespace DigitalEmotionDiary.Migrations
                             Description = "writer Han Kang",
                             DiaryEntryId = 1L,
                             Path = "./Resources/Images/hankang.webp",
-                            UploadedAt = new DateTime(2024, 12, 8, 2, 12, 42, 110, DateTimeKind.Utc).AddTicks(8763)
+                            UploadedAt = new DateTime(2024, 12, 8, 3, 33, 28, 489, DateTimeKind.Utc).AddTicks(426)
                         },
                         new
                         {
@@ -344,7 +353,7 @@ namespace DigitalEmotionDiary.Migrations
                             Description = "the night under martial law",
                             DiaryEntryId = 2L,
                             Path = "./Resources/Images/120324.png",
-                            UploadedAt = new DateTime(2024, 12, 8, 2, 12, 42, 110, DateTimeKind.Utc).AddTicks(9335)
+                            UploadedAt = new DateTime(2024, 12, 8, 3, 33, 28, 489, DateTimeKind.Utc).AddTicks(895)
                         },
                         new
                         {
@@ -352,7 +361,7 @@ namespace DigitalEmotionDiary.Migrations
                             Description = "maja",
                             DiaryEntryId = 3L,
                             Path = "./Resources/Images/maja.jpeg",
-                            UploadedAt = new DateTime(2024, 12, 8, 2, 12, 42, 110, DateTimeKind.Utc).AddTicks(9340)
+                            UploadedAt = new DateTime(2024, 12, 8, 3, 33, 28, 489, DateTimeKind.Utc).AddTicks(900)
                         });
                 });
 
@@ -374,7 +383,7 @@ namespace DigitalEmotionDiary.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Like", (string)null);
+                    b.ToTable("Like");
 
                     b.HasData(
                         new
@@ -403,7 +412,7 @@ namespace DigitalEmotionDiary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tag", (string)null);
+                    b.ToTable("Tag");
 
                     b.HasData(
                         new
@@ -441,7 +450,7 @@ namespace DigitalEmotionDiary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
 
                     b.HasData(
                         new
@@ -552,7 +561,7 @@ namespace DigitalEmotionDiary.Migrations
                     b.HasOne("DigitalEmotionDiary.Models.User", "User")
                         .WithMany("Likes")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("DiaryEntry");

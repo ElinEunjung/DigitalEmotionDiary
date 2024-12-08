@@ -13,21 +13,24 @@ namespace DigitalEmotionDiary.Models.Configuration
 	{
 		public void Configure(EntityTypeBuilder<EntryTag> builder)
 		{
-			builder.HasKey(et => new { et.DiaryEntryId, et.TagId });
+			builder.HasKey(et => et.Id);
 
 			builder.HasData(
 					new EntryTag
-					{
+					{   
+						Id = 1,
 						DiaryEntryId = 1,
 						TagId = 1,
 					},
 					new EntryTag
 					{
+						Id = 2,
 						DiaryEntryId = 2,
 						TagId = 2,
 					},
 					new EntryTag
 					{
+						Id = 3,
 						DiaryEntryId = 3,
 						TagId = 1,
 					}

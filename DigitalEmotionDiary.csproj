@@ -28,4 +28,10 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\DigitalEmotionDiary.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

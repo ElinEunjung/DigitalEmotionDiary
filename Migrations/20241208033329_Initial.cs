@@ -138,12 +138,14 @@ namespace DigitalEmotionDiary.Migrations
                 name: "EntryTag",
                 columns: table => new
                 {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     DiaryEntryId = table.Column<long>(type: "INTEGER", nullable: false),
                     TagId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EntryTag", x => new { x.DiaryEntryId, x.TagId });
+                    table.PrimaryKey("PK_EntryTag", x => x.Id);
                     table.ForeignKey(
                         name: "FK_EntryTag_DiaryEntry_DiaryEntryId",
                         column: x => x.DiaryEntryId,
@@ -203,7 +205,7 @@ namespace DigitalEmotionDiary.Migrations
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -259,9 +261,9 @@ namespace DigitalEmotionDiary.Migrations
                 columns: new[] { "Id", "Content", "CreatedAt", "EmotionId", "ImageId", "IsPublic", "Title", "UserId" },
                 values: new object[,]
                 {
-                    { 1L, "Han Kang, South korean writer won the Nobel Prize in Literature! I'm so proud of her", new DateTime(2024, 12, 8, 2, 12, 42, 101, DateTimeKind.Utc).AddTicks(1495), 1, 1L, true, "Good news", 1L },
-                    { 2L, "An idiot declared martial law today, luckly paliament overruled it in two hours, could save our democracy at the end. What a drama! ", new DateTime(2024, 12, 8, 2, 12, 42, 101, DateTimeKind.Utc).AddTicks(2102), 4, 2L, true, "A complete shock", 1L },
-                    { 3L, "I adapted new cat, she's so adorable!", new DateTime(2024, 12, 8, 2, 12, 42, 101, DateTimeKind.Utc).AddTicks(2105), 2, 3L, true, "Maya", 2L }
+                    { 1L, "Han Kang, South korean writer won the Nobel Prize in Literature! I'm so proud of her", new DateTime(2024, 12, 8, 3, 33, 28, 479, DateTimeKind.Utc).AddTicks(8234), 1, 1L, true, "Good news", 1L },
+                    { 2L, "An idiot declared martial law today, luckly paliament overruled it in two hours, could save our democracy at the end. What a drama! ", new DateTime(2024, 12, 8, 3, 33, 28, 479, DateTimeKind.Utc).AddTicks(8847), 4, 2L, true, "A complete shock", 1L },
+                    { 3L, "I adapted new cat, she's so adorable!", new DateTime(2024, 12, 8, 3, 33, 28, 479, DateTimeKind.Utc).AddTicks(8851), 2, 3L, true, "Maya", 2L }
                 });
 
             migrationBuilder.InsertData(
@@ -269,19 +271,19 @@ namespace DigitalEmotionDiary.Migrations
                 columns: new[] { "Id", "Content", "CreatedAt", "DiaryEntryId", "UserId" },
                 values: new object[,]
                 {
-                    { 1L, "Congraturation! Woohoo!", new DateTime(2024, 12, 8, 2, 12, 42, 105, DateTimeKind.Utc).AddTicks(7796), 1L, 2L },
-                    { 2L, "We need to fight for democracy!", new DateTime(2024, 12, 8, 2, 12, 42, 105, DateTimeKind.Utc).AddTicks(8156), 2L, 2L },
-                    { 3L, "awwww so happy for you!", new DateTime(2024, 12, 8, 2, 12, 42, 105, DateTimeKind.Utc).AddTicks(8158), 2L, 1L }
+                    { 1L, "Congraturation! Woohoo!", new DateTime(2024, 12, 8, 3, 33, 28, 484, DateTimeKind.Utc).AddTicks(3907), 1L, 2L },
+                    { 2L, "We need to fight for democracy!", new DateTime(2024, 12, 8, 3, 33, 28, 484, DateTimeKind.Utc).AddTicks(4223), 2L, 2L },
+                    { 3L, "awwww so happy for you!", new DateTime(2024, 12, 8, 3, 33, 28, 484, DateTimeKind.Utc).AddTicks(4226), 2L, 1L }
                 });
 
             migrationBuilder.InsertData(
                 table: "EntryTag",
-                columns: new[] { "DiaryEntryId", "TagId" },
+                columns: new[] { "Id", "DiaryEntryId", "TagId" },
                 values: new object[,]
                 {
-                    { 1L, 1L },
-                    { 2L, 2L },
-                    { 3L, 1L }
+                    { 1L, 1L, 1L },
+                    { 2L, 2L, 2L },
+                    { 3L, 3L, 1L }
                 });
 
             migrationBuilder.InsertData(
@@ -289,9 +291,9 @@ namespace DigitalEmotionDiary.Migrations
                 columns: new[] { "Id", "Description", "DiaryEntryId", "Path", "UploadedAt" },
                 values: new object[,]
                 {
-                    { 1L, "writer Han Kang", 1L, "./Resources/Images/hankang.webp", new DateTime(2024, 12, 8, 2, 12, 42, 110, DateTimeKind.Utc).AddTicks(8763) },
-                    { 2L, "the night under martial law", 2L, "./Resources/Images/120324.png", new DateTime(2024, 12, 8, 2, 12, 42, 110, DateTimeKind.Utc).AddTicks(9335) },
-                    { 3L, "maja", 3L, "./Resources/Images/maja.jpeg", new DateTime(2024, 12, 8, 2, 12, 42, 110, DateTimeKind.Utc).AddTicks(9340) }
+                    { 1L, "writer Han Kang", 1L, "./Resources/Images/hankang.webp", new DateTime(2024, 12, 8, 3, 33, 28, 489, DateTimeKind.Utc).AddTicks(426) },
+                    { 2L, "the night under martial law", 2L, "./Resources/Images/120324.png", new DateTime(2024, 12, 8, 3, 33, 28, 489, DateTimeKind.Utc).AddTicks(895) },
+                    { 3L, "maja", 3L, "./Resources/Images/maja.jpeg", new DateTime(2024, 12, 8, 3, 33, 28, 489, DateTimeKind.Utc).AddTicks(900) }
                 });
 
             migrationBuilder.InsertData(
@@ -328,6 +330,11 @@ namespace DigitalEmotionDiary.Migrations
                 table: "Emotion",
                 column: "EmotionTypeId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EntryTag_DiaryEntryId",
+                table: "EntryTag",
+                column: "DiaryEntryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EntryTag_TagId",
