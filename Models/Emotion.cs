@@ -14,7 +14,7 @@ namespace DigitalEmotionDiary.Models
 
 
 		// Navigation property
-		public EmotionType? EmotionType { get; set; } = null;
+		public  EmotionType? EmotionType { get; set; } // One to One
 
 		public ICollection<DiaryEntry> DiaryEntries { get; set; } = [];
 

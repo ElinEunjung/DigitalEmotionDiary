@@ -10,9 +10,8 @@ namespace DigitalEmotionDiary.Models
 	{
 		public long Id { get; set; }
 		public required string Name { get; set; }
-		public string? Color { get; set; }
 
 		// Navigation property
-		public ICollection<EntryTag>? EntryTags { get; set; } // One to Many
+		public ICollection<EntryTag> EntryTags { get; set; } = new List<EntryTag>(); // One to Many
 	}
 }

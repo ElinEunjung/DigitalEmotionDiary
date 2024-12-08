@@ -42,7 +42,33 @@ namespace DigitalEmotionDiary.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comment", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Content = "Congraturation! Woohoo!",
+                            CreatedAt = new DateTime(2024, 12, 8, 2, 12, 42, 105, DateTimeKind.Utc).AddTicks(7796),
+                            DiaryEntryId = 1L,
+                            UserId = 2L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Content = "We need to fight for democracy!",
+                            CreatedAt = new DateTime(2024, 12, 8, 2, 12, 42, 105, DateTimeKind.Utc).AddTicks(8156),
+                            DiaryEntryId = 2L,
+                            UserId = 2L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Content = "awwww so happy for you!",
+                            CreatedAt = new DateTime(2024, 12, 8, 2, 12, 42, 105, DateTimeKind.Utc).AddTicks(8158),
+                            DiaryEntryId = 2L,
+                            UserId = 1L
+                        });
                 });
 
             modelBuilder.Entity("DigitalEmotionDiary.Models.DiaryEntry", b =>
@@ -58,10 +84,10 @@ namespace DigitalEmotionDiary.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<long>("EmotionId")
+                    b.Property<int>("EmotionId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("EmotionId1")
+                    b.Property<long?>("ImageId")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsPublic")
@@ -76,11 +102,46 @@ namespace DigitalEmotionDiary.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmotionId1");
+                    b.HasIndex("EmotionId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("DiaryEntry");
+                    b.ToTable("DiaryEntry", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Content = "Han Kang, South korean writer won the Nobel Prize in Literature! I'm so proud of her",
+                            CreatedAt = new DateTime(2024, 12, 8, 2, 12, 42, 101, DateTimeKind.Utc).AddTicks(1495),
+                            EmotionId = 1,
+                            ImageId = 1L,
+                            IsPublic = true,
+                            Title = "Good news",
+                            UserId = 1L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Content = "An idiot declared martial law today, luckly paliament overruled it in two hours, could save our democracy at the end. What a drama! ",
+                            CreatedAt = new DateTime(2024, 12, 8, 2, 12, 42, 101, DateTimeKind.Utc).AddTicks(2102),
+                            EmotionId = 4,
+                            ImageId = 2L,
+                            IsPublic = true,
+                            Title = "A complete shock",
+                            UserId = 1L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Content = "I adapted new cat, she's so adorable!",
+                            CreatedAt = new DateTime(2024, 12, 8, 2, 12, 42, 101, DateTimeKind.Utc).AddTicks(2105),
+                            EmotionId = 2,
+                            ImageId = 3L,
+                            IsPublic = true,
+                            Title = "Maya",
+                            UserId = 2L
+                        });
                 });
 
             modelBuilder.Entity("DigitalEmotionDiary.Models.Emotion", b =>
@@ -98,57 +159,58 @@ namespace DigitalEmotionDiary.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmotionTypeId");
+                    b.HasIndex("EmotionTypeId")
+                        .IsUnique();
 
-                    b.ToTable("Emotion");
+                    b.ToTable("Emotion", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            BackgroundColor = "Yellow",
+                            BackgroundColor = "#ffd700",
                             EmotionTypeId = 1
                         },
                         new
                         {
                             Id = 2,
-                            BackgroundColor = "Orange",
+                            BackgroundColor = "#ff7f50",
                             EmotionTypeId = 2
                         },
                         new
                         {
                             Id = 3,
-                            BackgroundColor = "Beige",
+                            BackgroundColor = "#c39797",
                             EmotionTypeId = 3
                         },
                         new
                         {
                             Id = 4,
-                            BackgroundColor = "Brown",
+                            BackgroundColor = "#794044",
                             EmotionTypeId = 4
                         },
                         new
                         {
                             Id = 5,
-                            BackgroundColor = "Light Red",
+                            BackgroundColor = "#ff4040",
                             EmotionTypeId = 5
                         },
                         new
                         {
                             Id = 6,
-                            BackgroundColor = "Grey/Black",
+                            BackgroundColor = "#808080",
                             EmotionTypeId = 6
                         },
                         new
                         {
                             Id = 7,
-                            BackgroundColor = "Red",
+                            BackgroundColor = "#ff0000",
                             EmotionTypeId = 7
                         },
                         new
                         {
                             Id = 8,
-                            BackgroundColor = "White",
+                            BackgroundColor = "#eeeeee",
                             EmotionTypeId = 8
                         });
                 });
@@ -165,7 +227,7 @@ namespace DigitalEmotionDiary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmotionType");
+                    b.ToTable("EmotionType", (string)null);
 
                     b.HasData(
                         new
@@ -222,7 +284,24 @@ namespace DigitalEmotionDiary.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("EntryTag");
+                    b.ToTable("EntryTag", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            DiaryEntryId = 1L,
+                            TagId = 1L
+                        },
+                        new
+                        {
+                            DiaryEntryId = 2L,
+                            TagId = 2L
+                        },
+                        new
+                        {
+                            DiaryEntryId = 3L,
+                            TagId = 1L
+                        });
                 });
 
             modelBuilder.Entity("DigitalEmotionDiary.Models.Image", b =>
@@ -241,14 +320,40 @@ namespace DigitalEmotionDiary.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("UploadeAt")
+                    b.Property<DateTime>("UploadedAt")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DiaryEntryId");
 
-                    b.ToTable("Image");
+                    b.ToTable("Image", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Description = "writer Han Kang",
+                            DiaryEntryId = 1L,
+                            Path = "./Resources/Images/hankang.webp",
+                            UploadedAt = new DateTime(2024, 12, 8, 2, 12, 42, 110, DateTimeKind.Utc).AddTicks(8763)
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Description = "the night under martial law",
+                            DiaryEntryId = 2L,
+                            Path = "./Resources/Images/120324.png",
+                            UploadedAt = new DateTime(2024, 12, 8, 2, 12, 42, 110, DateTimeKind.Utc).AddTicks(9335)
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Description = "maja",
+                            DiaryEntryId = 3L,
+                            Path = "./Resources/Images/maja.jpeg",
+                            UploadedAt = new DateTime(2024, 12, 8, 2, 12, 42, 110, DateTimeKind.Utc).AddTicks(9340)
+                        });
                 });
 
             modelBuilder.Entity("DigitalEmotionDiary.Models.Like", b =>
@@ -269,7 +374,21 @@ namespace DigitalEmotionDiary.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Like");
+                    b.ToTable("Like", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            DiaryEntryId = 1L,
+                            UserId = 2L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            DiaryEntryId = 2L,
+                            UserId = 2L
+                        });
                 });
 
             modelBuilder.Entity("DigitalEmotionDiary.Models.Tag", b =>
@@ -278,16 +397,25 @@ namespace DigitalEmotionDiary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Color")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tag");
+                    b.ToTable("Tag", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Name = "news"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Name = "shocking"
+                        });
                 });
 
             modelBuilder.Entity("DigitalEmotionDiary.Models.User", b =>
@@ -313,7 +441,25 @@ namespace DigitalEmotionDiary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Email = "elin@gmail.com",
+                            Password = "pass1",
+                            ProfileImagePath = "elinProfile.png",
+                            UserName = "Elin"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Email = "ivan@gmail.com",
+                            Password = "pass2",
+                            ProfileImagePath = "ivanProfile.png",
+                            UserName = "Ivan"
+                        });
                 });
 
             modelBuilder.Entity("DigitalEmotionDiary.Models.Comment", b =>
@@ -327,7 +473,7 @@ namespace DigitalEmotionDiary.Migrations
                     b.HasOne("DigitalEmotionDiary.Models.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("DiaryEntry");
@@ -339,7 +485,9 @@ namespace DigitalEmotionDiary.Migrations
                 {
                     b.HasOne("DigitalEmotionDiary.Models.Emotion", "Emotion")
                         .WithMany("DiaryEntries")
-                        .HasForeignKey("EmotionId1");
+                        .HasForeignKey("EmotionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("DigitalEmotionDiary.Models.User", "User")
                         .WithMany("DiaryEntries")
@@ -355,8 +503,8 @@ namespace DigitalEmotionDiary.Migrations
             modelBuilder.Entity("DigitalEmotionDiary.Models.Emotion", b =>
                 {
                     b.HasOne("DigitalEmotionDiary.Models.EmotionType", "EmotionType")
-                        .WithMany("Emotions")
-                        .HasForeignKey("EmotionTypeId")
+                        .WithOne("Emotion")
+                        .HasForeignKey("DigitalEmotionDiary.Models.Emotion", "EmotionTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -402,9 +550,9 @@ namespace DigitalEmotionDiary.Migrations
                         .IsRequired();
 
                     b.HasOne("DigitalEmotionDiary.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Likes")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("DiaryEntry");
@@ -430,7 +578,7 @@ namespace DigitalEmotionDiary.Migrations
 
             modelBuilder.Entity("DigitalEmotionDiary.Models.EmotionType", b =>
                 {
-                    b.Navigation("Emotions");
+                    b.Navigation("Emotion");
                 });
 
             modelBuilder.Entity("DigitalEmotionDiary.Models.Tag", b =>
@@ -443,6 +591,8 @@ namespace DigitalEmotionDiary.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("DiaryEntries");
+
+                    b.Navigation("Likes");
                 });
 #pragma warning restore 612, 618
         }

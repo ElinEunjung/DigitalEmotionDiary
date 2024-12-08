@@ -11,6 +11,7 @@ namespace DigitalEmotionDiary.Models
 		public int Id { get; set; }
 		public required string Name { get; set; }
 
-		public ICollection<Emotion> Emotions { get; set; } = [];
+		// Navigation property
+		public Emotion? Emotion { get; set; } // One to One
 	}
 }

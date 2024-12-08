@@ -32,8 +32,7 @@ namespace DigitalEmotionDiary.Migrations
                 {
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Color = table.Column<string>(type: "TEXT", nullable: true)
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,18 +85,19 @@ namespace DigitalEmotionDiary.Migrations
                     Content = table.Column<string>(type: "TEXT", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsPublic = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ImageId = table.Column<long>(type: "INTEGER", nullable: true),
                     UserId = table.Column<long>(type: "INTEGER", nullable: false),
-                    EmotionId = table.Column<long>(type: "INTEGER", nullable: false),
-                    EmotionId1 = table.Column<int>(type: "INTEGER", nullable: true)
+                    EmotionId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DiaryEntry", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DiaryEntry_Emotion_EmotionId1",
-                        column: x => x.EmotionId1,
+                        name: "FK_DiaryEntry_Emotion_EmotionId",
+                        column: x => x.EmotionId,
                         principalTable: "Emotion",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DiaryEntry_User_UserId",
                         column: x => x.UserId,
@@ -131,7 +131,7 @@ namespace DigitalEmotionDiary.Migrations
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -165,7 +165,7 @@ namespace DigitalEmotionDiary.Migrations
                     Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Path = table.Column<string>(type: "TEXT", nullable: false),
-                    UploadeAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UploadedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     DiaryEntryId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
@@ -203,7 +203,7 @@ namespace DigitalEmotionDiary.Migrations
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -222,18 +222,85 @@ namespace DigitalEmotionDiary.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Tag",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1L, "news" },
+                    { 2L, "shocking" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "User",
+                columns: new[] { "Id", "Email", "Password", "ProfileImagePath", "UserName" },
+                values: new object[,]
+                {
+                    { 1L, "elin@gmail.com", "pass1", "elinProfile.png", "Elin" },
+                    { 2L, "ivan@gmail.com", "pass2", "ivanProfile.png", "Ivan" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Emotion",
                 columns: new[] { "Id", "BackgroundColor", "EmotionTypeId" },
                 values: new object[,]
                 {
-                    { 1, "Yellow", 1 },
-                    { 2, "Orange", 2 },
-                    { 3, "Beige", 3 },
-                    { 4, "Brown", 4 },
-                    { 5, "Light Red", 5 },
-                    { 6, "Grey/Black", 6 },
-                    { 7, "Red", 7 },
-                    { 8, "White", 8 }
+                    { 1, "#ffd700", 1 },
+                    { 2, "#ff7f50", 2 },
+                    { 3, "#c39797", 3 },
+                    { 4, "#794044", 4 },
+                    { 5, "#ff4040", 5 },
+                    { 6, "#808080", 6 },
+                    { 7, "#ff0000", 7 },
+                    { 8, "#eeeeee", 8 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "DiaryEntry",
+                columns: new[] { "Id", "Content", "CreatedAt", "EmotionId", "ImageId", "IsPublic", "Title", "UserId" },
+                values: new object[,]
+                {
+                    { 1L, "Han Kang, South korean writer won the Nobel Prize in Literature! I'm so proud of her", new DateTime(2024, 12, 8, 2, 12, 42, 101, DateTimeKind.Utc).AddTicks(1495), 1, 1L, true, "Good news", 1L },
+                    { 2L, "An idiot declared martial law today, luckly paliament overruled it in two hours, could save our democracy at the end. What a drama! ", new DateTime(2024, 12, 8, 2, 12, 42, 101, DateTimeKind.Utc).AddTicks(2102), 4, 2L, true, "A complete shock", 1L },
+                    { 3L, "I adapted new cat, she's so adorable!", new DateTime(2024, 12, 8, 2, 12, 42, 101, DateTimeKind.Utc).AddTicks(2105), 2, 3L, true, "Maya", 2L }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Comment",
+                columns: new[] { "Id", "Content", "CreatedAt", "DiaryEntryId", "UserId" },
+                values: new object[,]
+                {
+                    { 1L, "Congraturation! Woohoo!", new DateTime(2024, 12, 8, 2, 12, 42, 105, DateTimeKind.Utc).AddTicks(7796), 1L, 2L },
+                    { 2L, "We need to fight for democracy!", new DateTime(2024, 12, 8, 2, 12, 42, 105, DateTimeKind.Utc).AddTicks(8156), 2L, 2L },
+                    { 3L, "awwww so happy for you!", new DateTime(2024, 12, 8, 2, 12, 42, 105, DateTimeKind.Utc).AddTicks(8158), 2L, 1L }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EntryTag",
+                columns: new[] { "DiaryEntryId", "TagId" },
+                values: new object[,]
+                {
+                    { 1L, 1L },
+                    { 2L, 2L },
+                    { 3L, 1L }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Image",
+                columns: new[] { "Id", "Description", "DiaryEntryId", "Path", "UploadedAt" },
+                values: new object[,]
+                {
+                    { 1L, "writer Han Kang", 1L, "./Resources/Images/hankang.webp", new DateTime(2024, 12, 8, 2, 12, 42, 110, DateTimeKind.Utc).AddTicks(8763) },
+                    { 2L, "the night under martial law", 2L, "./Resources/Images/120324.png", new DateTime(2024, 12, 8, 2, 12, 42, 110, DateTimeKind.Utc).AddTicks(9335) },
+                    { 3L, "maja", 3L, "./Resources/Images/maja.jpeg", new DateTime(2024, 12, 8, 2, 12, 42, 110, DateTimeKind.Utc).AddTicks(9340) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Like",
+                columns: new[] { "Id", "DiaryEntryId", "UserId" },
+                values: new object[,]
+                {
+                    { 1L, 1L, 2L },
+                    { 2L, 2L, 2L }
                 });
 
             migrationBuilder.CreateIndex(
@@ -247,9 +314,9 @@ namespace DigitalEmotionDiary.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DiaryEntry_EmotionId1",
+                name: "IX_DiaryEntry_EmotionId",
                 table: "DiaryEntry",
-                column: "EmotionId1");
+                column: "EmotionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DiaryEntry_UserId",
@@ -259,7 +326,8 @@ namespace DigitalEmotionDiary.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Emotion_EmotionTypeId",
                 table: "Emotion",
-                column: "EmotionTypeId");
+                column: "EmotionTypeId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_EntryTag_TagId",
