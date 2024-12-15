@@ -85,9 +85,9 @@ namespace DigitalEmotionDiary.Migrations
                     Content = table.Column<string>(type: "TEXT", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsPublic = table.Column<bool>(type: "INTEGER", nullable: false),
-                    ImageId = table.Column<long>(type: "INTEGER", nullable: true),
                     UserId = table.Column<long>(type: "INTEGER", nullable: false),
-                    EmotionId = table.Column<int>(type: "INTEGER", nullable: false)
+                    EmotionId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ImageId = table.Column<long>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -261,9 +261,9 @@ namespace DigitalEmotionDiary.Migrations
                 columns: new[] { "Id", "Content", "CreatedAt", "EmotionId", "ImageId", "IsPublic", "Title", "UserId" },
                 values: new object[,]
                 {
-                    { 1L, "Han Kang, South korean writer won the Nobel Prize in Literature! I'm so proud of her", new DateTime(2024, 12, 8, 3, 33, 28, 479, DateTimeKind.Utc).AddTicks(8234), 1, 1L, true, "Good news", 1L },
-                    { 2L, "An idiot declared martial law today, luckly paliament overruled it in two hours, could save our democracy at the end. What a drama! ", new DateTime(2024, 12, 8, 3, 33, 28, 479, DateTimeKind.Utc).AddTicks(8847), 4, 2L, true, "A complete shock", 1L },
-                    { 3L, "I adapted new cat, she's so adorable!", new DateTime(2024, 12, 8, 3, 33, 28, 479, DateTimeKind.Utc).AddTicks(8851), 2, 3L, true, "Maya", 2L }
+                    { 1L, "Han Kang, South korean writer won the Nobel Prize in Literature! I'm so proud of her", new DateTime(2024, 12, 15, 13, 34, 46, 594, DateTimeKind.Utc).AddTicks(8888), 1, 1L, true, "Good news", 1L },
+                    { 2L, "An idiot declared martial law today, luckly paliament overruled it in two hours, could save our democracy at the end. What a drama! ", new DateTime(2024, 12, 15, 13, 34, 46, 594, DateTimeKind.Utc).AddTicks(9675), 4, 2L, true, "A complete shock", 1L },
+                    { 3L, "I adapted new cat, she's so adorable!", new DateTime(2024, 12, 15, 13, 34, 46, 594, DateTimeKind.Utc).AddTicks(9679), 2, 3L, true, "Maya", 2L }
                 });
 
             migrationBuilder.InsertData(
@@ -271,9 +271,9 @@ namespace DigitalEmotionDiary.Migrations
                 columns: new[] { "Id", "Content", "CreatedAt", "DiaryEntryId", "UserId" },
                 values: new object[,]
                 {
-                    { 1L, "Congraturation! Woohoo!", new DateTime(2024, 12, 8, 3, 33, 28, 484, DateTimeKind.Utc).AddTicks(3907), 1L, 2L },
-                    { 2L, "We need to fight for democracy!", new DateTime(2024, 12, 8, 3, 33, 28, 484, DateTimeKind.Utc).AddTicks(4223), 2L, 2L },
-                    { 3L, "awwww so happy for you!", new DateTime(2024, 12, 8, 3, 33, 28, 484, DateTimeKind.Utc).AddTicks(4226), 2L, 1L }
+                    { 1L, "Congraturation! Woohoo!", new DateTime(2024, 12, 15, 13, 34, 46, 598, DateTimeKind.Utc).AddTicks(7896), 1L, 2L },
+                    { 2L, "We need to fight for democracy!", new DateTime(2024, 12, 15, 13, 34, 46, 598, DateTimeKind.Utc).AddTicks(8296), 2L, 2L },
+                    { 3L, "awwww so happy for you!", new DateTime(2024, 12, 15, 13, 34, 46, 598, DateTimeKind.Utc).AddTicks(8299), 2L, 1L }
                 });
 
             migrationBuilder.InsertData(
@@ -291,9 +291,9 @@ namespace DigitalEmotionDiary.Migrations
                 columns: new[] { "Id", "Description", "DiaryEntryId", "Path", "UploadedAt" },
                 values: new object[,]
                 {
-                    { 1L, "writer Han Kang", 1L, "./Resources/Images/hankang.webp", new DateTime(2024, 12, 8, 3, 33, 28, 489, DateTimeKind.Utc).AddTicks(426) },
-                    { 2L, "the night under martial law", 2L, "./Resources/Images/120324.png", new DateTime(2024, 12, 8, 3, 33, 28, 489, DateTimeKind.Utc).AddTicks(895) },
-                    { 3L, "maja", 3L, "./Resources/Images/maja.jpeg", new DateTime(2024, 12, 8, 3, 33, 28, 489, DateTimeKind.Utc).AddTicks(900) }
+                    { 1L, "writer Han Kang", 1L, "./Resources/Images/hankang.webp", new DateTime(2024, 12, 15, 13, 34, 46, 602, DateTimeKind.Utc).AddTicks(6579) },
+                    { 2L, "the night under martial law", 2L, "./Resources/Images/120324.png", new DateTime(2024, 12, 15, 13, 34, 46, 602, DateTimeKind.Utc).AddTicks(7172) },
+                    { 3L, "maja", 3L, "./Resources/Images/maja.jpeg", new DateTime(2024, 12, 15, 13, 34, 46, 602, DateTimeKind.Utc).AddTicks(7175) }
                 });
 
             migrationBuilder.InsertData(
@@ -344,7 +344,8 @@ namespace DigitalEmotionDiary.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Image_DiaryEntryId",
                 table: "Image",
-                column: "DiaryEntryId");
+                column: "DiaryEntryId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Like_DiaryEntryId",

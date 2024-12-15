@@ -16,8 +16,8 @@ namespace DigitalEmotionDiary.Models.Configuration
 			builder.HasKey(i => i.Id);
 
 			builder.HasOne(i => i.DiaryEntry)
-				   .WithMany(de => de.Images)
-				   .HasForeignKey(i => i.DiaryEntryId)
+				   .WithOne(de => de.Image)
+				   .HasForeignKey<Image>(i => i.DiaryEntryId)
 				   .OnDelete(DeleteBehavior.Cascade);
 
 			builder.HasData(

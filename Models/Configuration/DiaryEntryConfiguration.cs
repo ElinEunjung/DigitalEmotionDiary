@@ -41,9 +41,9 @@ namespace DigitalEmotionDiary.Models.Configuration
 				   .HasForeignKey(l => l.DiaryEntryId)
 				   .OnDelete(DeleteBehavior.Restrict);
 
-			builder.HasMany(d => d.Images)
+			builder.HasOne(d => d.Image)
 				   .WithOne(i => i.DiaryEntry)
-				   .HasForeignKey(l => l.DiaryEntryId)
+				   .HasForeignKey<Image>(i => i.DiaryEntryId)
 				   .OnDelete(DeleteBehavior.Restrict);
 
 

@@ -17,18 +17,21 @@ namespace DigitalEmotionDiary.Models
 		 public bool IsPublic { get; set; } = false;
 
 		// Foreign key 
-		public long? ImageId { get; set; } = null;
 		public long UserId { get; set; } 
 		public int EmotionId { get; set; }
 
+		// Optional Foreign Key
+		public long? ImageId { get; set; } = null;
+
 
 		// Navigation Properties
-		public User? User { get; set; }
-		public Emotion? Emotion { get; set; }
+		public User User { get; set; }
+		public Emotion Emotion { get; set; }
+		public Image Image { get; set; }
 		public ICollection<EntryTag> EntryTags { get; set; } = new List<EntryTag>(); // Middle table for Many to many
 		public ICollection<Comment> Comments { get; set; } = new List<Comment>();// One to Many
-		public ICollection<Like> Likes { get; set; } = new List<Like>();// One to Many
-		public ICollection<Image> Images { get; set; } = new List<Image>(); // One to Many
+		public ICollection<Like> Likes { get; set; } = new List<Like>();
+	
 
 	}
 
