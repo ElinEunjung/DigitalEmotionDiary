@@ -11,26 +11,22 @@ namespace DigitalEmotionDiary.Data.Repositories
 	public class CommentRepository
 	{
 		private readonly DigitalEmotionDiaryDbContext _dbContext;
-		private readonly DiaryEntryRepository _diaryEntryRepository;
+		
 
-		public CommentRepository(
-			DigitalEmotionDiaryDbContext dbContext,
-			DiaryEntryRepository diaryEntryRepository
-			)
+		public CommentRepository(DigitalEmotionDiaryDbContext dbContext)
 		{
 			_dbContext = dbContext;
-			_diaryEntryRepository = diaryEntryRepository;
 		}
 		public void CreateComment(Comment comment)
 		{
 			_dbContext.Comment.Add(comment);
-			_dbContext.SaveChanges();
+			
 		}
 
 		public void UpdateComment(Comment comment)
 		{
 			_dbContext.Comment.Update(comment);
-			_dbContext.SaveChanges();
+			
 		}
 
 		public void DeleteCommentById(long commentId)
@@ -39,7 +35,6 @@ namespace DigitalEmotionDiary.Data.Repositories
 			if (comment != null)
 			{
 				_dbContext.Comment.Remove(comment);
-				_dbContext.SaveChanges();
 			}
 		}
 
@@ -48,6 +43,11 @@ namespace DigitalEmotionDiary.Data.Repositories
 			return _dbContext.Comment
 				.Where(c => c.DiaryEntryId == diaryEntryId)
 				.ToList();
+		}
+
+		public void Save()
+		{ 
+			_dbContext.SaveChanges(); 
 		}
 	}
 }

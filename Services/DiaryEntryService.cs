@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DigitalEmotionDiary.Services
 {
-	public class DiaryEntryManager
+	public class DiaryEntryService
 	{
 
 	}
