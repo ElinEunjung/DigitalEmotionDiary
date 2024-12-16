@@ -52,7 +52,7 @@ namespace DigitalEmotionDiary.Data.Repositories
 			return _dbContext.Like.Any(l => l.DiaryEntryId == diaryEntryId && l.UserId == userId);
 		}
 
-		public void Save()
+		public void SaveChanges()
 		{
 			_dbContext.SaveChanges();
 		}

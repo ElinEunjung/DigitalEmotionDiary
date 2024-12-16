@@ -25,8 +25,8 @@ namespace DigitalEmotionDiary.Models
 
 
 		// Navigation Properties
-		public User User { get; set; }
-		public Emotion Emotion { get; set; }
+		public  User User { get; set; }
+		public  Emotion Emotion { get; set; }
 		public Image Image { get; set; }
 		public ICollection<EntryTag> EntryTags { get; set; } = new List<EntryTag>(); // Middle table for Many to many
 		public ICollection<Comment> Comments { get; set; } = new List<Comment>();// One to Many

@@ -35,7 +35,7 @@ namespace DigitalEmotionDiary.Services
 			};
 
 			_likeRepository.AddLike(like);
-			_likeRepository.Save();
+			_likeRepository.SaveChanges();
 		}
 
 		public void RemoveLike(long diaryEntryId, long userId)
@@ -47,7 +47,7 @@ namespace DigitalEmotionDiary.Services
 			}
 
 			_likeRepository.RemoveLike(like);
-			_likeRepository.Save();
+			_likeRepository.SaveChanges();
 		}
 
 		public IEnumerable<Like> GetLikesByDiaryEntryId(long diaryEntryId)

@@ -43,5 +43,10 @@ namespace DigitalEmotionDiary.Data.Repositories
 				_dbContext.SaveChanges();
 			}
 		}
+
+		public void SaveChanges()
+		{
+			_dbContext.SaveChanges();
+		}
 	}
 }
