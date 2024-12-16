@@ -45,7 +45,7 @@ namespace DigitalEmotionDiary.Data.Repositories
 				.ToList();
 		}
 
-		public void updateDiaryEntryVisibility(long id, bool isPublic)
+		public void UpdateDiaryEntryVisibility(long id, bool isPublic)
 		{
 			var diaryEntry = _dbContext.DiaryEntry.Find(id);
 			if (diaryEntry != null)

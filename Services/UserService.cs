@@ -17,6 +17,11 @@ namespace DigitalEmotionDiary.Services
 			_userRepository = userRepository;
 		}
 
+		public User? GetUserById(long id)
+		{
+			return _userRepository.GetUserById(id);
+		}
+
 		public IEnumerable<User> GetAllUsers()
 		{
 			return _userRepository.GetAllUsers();
@@ -55,10 +60,7 @@ namespace DigitalEmotionDiary.Services
 			
 		}
 
-		public User? GetUserById(long id)
-		{
-			return _userRepository.GetUserById(id);
-		}
+		
 
 	}
 }

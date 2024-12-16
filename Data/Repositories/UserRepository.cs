@@ -16,10 +16,17 @@ namespace DigitalEmotionDiary.Data.Repositories
 			_dbContext = dbContext;
 		}
 
+		public User? GetUserById(long id)
+		{
+			return _dbContext.User.FirstOrDefault(u => u.Id == id);
+		}
+
 		public IEnumerable<User> GetAllUsers()
 		{
 			return _dbContext.User.ToList();
 		}
+
+		
 		public void CreateUser(User user)
 		{
 			_dbContext.User.Add(user);
@@ -41,11 +48,6 @@ namespace DigitalEmotionDiary.Data.Repositories
 			{
 				throw new System.Exception($"User with ID {id} not found.");
 			}
-		}
-
-		public User? GetUserById(long id)
-		{
-			return _dbContext.User.FirstOrDefault(u => u.Id == id);
 		}
 
 		public void SaveChanges()
