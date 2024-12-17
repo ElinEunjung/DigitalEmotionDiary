@@ -23,6 +23,11 @@ class Command
     {
         return _name == "QUIT";
     }
+
+    public bool isLogoutCommand()
+    {
+        return _name == "LOGOUT";
+    }
     
     public override bool Equals(object obj)
     {        

@@ -12,6 +12,8 @@ namespace DigitalEmotionDiary.UI
 	{
 		private readonly UserService _userService;
 
+		private readonly long LoggedOutUserId = -1L;
+
 		public LoginService(UserService userService)
 		{
 			_userService = userService;
@@ -36,7 +38,12 @@ namespace DigitalEmotionDiary.UI
 			{
 				return loggedInUser.Id;
 			}
-			return -1L;
+			return LoggedOutUserId;
+		}
+
+		public long Logout()
+		{
+			return LoggedOutUserId;
 		}
 
 		public void UpdateProfile()

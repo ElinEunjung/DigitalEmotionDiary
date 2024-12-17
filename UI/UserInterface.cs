@@ -13,9 +13,10 @@ namespace DigitalEmotionDiary.UI
 		private const String WRITE_COMMAND = "WRITE";
     	private const String GET_COMMAND = "GET";
 		private const String GET_ALL_COMMAND = "GET_ALL";
-		private const String GET_ENTRY_BY_COLOR_COMMAND = "GET_ENTRY_BY_COLOR";
+		private const String GET_BY_COLOR_COMMAND = "GET_BY_COLOR";
     	private const String DELETE_COMMAND = "DELETE";
 		private const String HELP_COMMAND = "HELP";
+		private const String LOGOUT_COMMAND = "LOGOUT";
     	private const String QUIT_COMMAND = "QUIT";
 
 
@@ -25,10 +26,11 @@ namespace DigitalEmotionDiary.UI
 		{
 			{GET_COMMAND, new Command(GET_COMMAND, 1)},
 			{GET_ALL_COMMAND, new Command(GET_ALL_COMMAND, 0)},
-			{GET_ENTRY_BY_COLOR_COMMAND, new Command(GET_ENTRY_BY_COLOR_COMMAND, 1)},
+			{GET_BY_COLOR_COMMAND, new Command(GET_BY_COLOR_COMMAND, 1)},
 			{WRITE_COMMAND, new Command(WRITE_COMMAND, 4)},
 			{DELETE_COMMAND, new Command(DELETE_COMMAND, 1)},
 			{HELP_COMMAND, new Command(HELP_COMMAND, 0)},
+			{LOGOUT_COMMAND, new Command(LOGOUT_COMMAND, 0)},
 			{QUIT_COMMAND, new Command(QUIT_COMMAND, 0)}
     	};
 
@@ -45,54 +47,63 @@ namespace DigitalEmotionDiary.UI
 
 		public void Show()
 		{
-			while(_loggedInUserId == -1L)
+			while (true)
 			{
-				Console.Write("Please log in. Enter your username: ");
-				string username = Console.ReadLine();
-				Console.Write("Enter your password: ");
-				string password = Console.ReadLine();
-				_loggedInUserId = _loginService.Login(username, password);
-			}
+				while(NotLoggedIn())
+				{
+					Login();
+				}
+				DisplayMainMenu();
+				var shouldQuit = GetInputFromUser();
+				if (shouldQuit)
+				{
+					break;
+				}
 
-			DisplayMainMenu();
-			GetInputFromUser();
-			Console.WriteLine("Exiting program...");
+			}
 		}
 
 		private void DisplayMainMenu()
 		{
 			Console.WriteLine("MENU");
-			Console.WriteLine("---------------------------------------------");
-			Console.WriteLine("WRITE   - Write entry to Diary");
-			Console.WriteLine("DELETE  - Delete entry from Diary");
-			Console.WriteLine("GET     - Get a specific entry from the Diary");
-			Console.WriteLine("GET_ALL - Get all entries from the Diary");
-			Console.WriteLine("HELP    - Display this menu");
-			Console.WriteLine("QUIT    - Exit program");
-			Console.WriteLine("---------------------------------------------");
+			Console.WriteLine("-----------------------------------------------------");
+			Console.WriteLine("WRITE          - Write entry to Diary");
+			Console.WriteLine("DELETE         - Delete entry from Diary");
+			Console.WriteLine("GET            - Get a specific entry from the Diary");
+			Console.WriteLine("GET_ALL        - Get all entries from the Diary");
+			Console.WriteLine("GET_BY_COLOR   - Get entry by background color");
+			Console.WriteLine("HELP           - Display this menu");
+			Console.WriteLine("LOGOUT         - Logout current user");
+			Console.WriteLine("QUIT           - Exit program");
+			Console.WriteLine("-----------------------------------------------------");
 		}
 
-		private void GetInputFromUser()
+		private bool GetInputFromUser()
 		{
 			var UserCommand = Command.BlankCommand();
-			while (!UserCommand.IsQuitCommand())
+			while (true)
 			{
 				Console.Write("COMMAND: ");
 				var userInput = Console.ReadLine();
 				UserCommand = ParseInputAsCommand(userInput);
-				if (UserCommand.IsQuitCommand())
-				{
-					break;
-				}
 				if (CommandIsValid(UserCommand) && CommandHasCorrectNrOfArguments(UserCommand))
 				{
 					ExecuteCommand(UserCommand);
 				}
+				if (UserCommand.IsQuitCommand() || UserCommand.isLogoutCommand())
+				{
+					break;
+				}
 			}
+			if (UserCommand.IsQuitCommand())
+			{
+				return true;
+			}
+			return false;
 		}
 
 
-    	static Command ParseInputAsCommand(String userInput)
+    	private Command ParseInputAsCommand(String userInput)
 		{
 			if (userInput.Length < 1)
 			{
@@ -108,7 +119,7 @@ namespace DigitalEmotionDiary.UI
 			return new Command(command, arguments);
 		}
 			
-		void ExecuteCommand(Command command)
+		private void ExecuteCommand(Command command)
 		{
 			switch (command.GetName())
 			{
@@ -127,8 +138,14 @@ namespace DigitalEmotionDiary.UI
 				case HELP_COMMAND :
 					DisplayMainMenu();
 					break;
-				case GET_ENTRY_BY_COLOR_COMMAND :
+				case GET_BY_COLOR_COMMAND :
 					GetEntryByColor(command.GetArguments());
+					break;
+				case LOGOUT_COMMAND :
+					Logout();
+					break;
+				case QUIT_COMMAND :
+					PrintQuitText();
 					break;
 				default:
 					Console.WriteLine("Error, unknown command: " + command.GetName());
@@ -136,7 +153,7 @@ namespace DigitalEmotionDiary.UI
 			}
 		}
 
-		bool CommandIsValid(Command command)
+		private bool CommandIsValid(Command command)
 		{
 			if (!validCommands.ContainsKey(command.GetName()))
 			{
@@ -146,7 +163,7 @@ namespace DigitalEmotionDiary.UI
 			return true;
 		}
 
-		bool CommandHasCorrectNrOfArguments(Command command)
+		private bool CommandHasCorrectNrOfArguments(Command command)
 		{
 			var nrOfArgumentsInGivenCommand = command.GetNrOfArguments();
 			var nrOfArgumenntsInValidCommand = validCommands[command.GetName()].GetNrOfArguments();
@@ -158,7 +175,7 @@ namespace DigitalEmotionDiary.UI
 			return true;
 		}
 
-		public void WriteDiaryEntry(String[] arguments)
+		private void WriteDiaryEntry(String[] arguments)
 		{
 			DiaryEntryDTO entryDTO = new DiaryEntryDTO();
 			entryDTO.Title = arguments[0];
@@ -169,28 +186,52 @@ namespace DigitalEmotionDiary.UI
 			_diaryEntryService.PublishDiaryEntry(_loggedInUserId, entryDTO);
 		}
 
-		public void GetDiaryEntry(String[] arguments)
+		private void GetDiaryEntry(String[] arguments)
 		{
 			var entry = _diaryEntryService.GetDiaryEntry((long) _loggedInUserId, long.Parse(arguments[0]));
 			printEntry(entry);
 		}
 
-		public void GetAllDiaryEntries()
+		private void GetAllDiaryEntries()
 		{
 			var entries = _diaryEntryService.GetAllDiaryEntriesAccessibleToUser((long) _loggedInUserId);
 			printEntries(entries);
 		}
 
-		public void GetEntryByColor(String[] arguments)
+		private void GetEntryByColor(String[] arguments)
 		{
 			var entriesByColor = _diaryEntryService.GetEntryByColor(_loggedInUserId, arguments[0]);
 			printEntries(entriesByColor);
 
 		}
 
-		public void DeleteDiaryEntry(String[] arguments)
+		private void DeleteDiaryEntry(String[] arguments)
 		{
 			_diaryEntryService.DeleteDiaryEntryByUserIdAndEntryId(_loggedInUserId, long.Parse(arguments[0]));
+		}
+
+		private void Login()
+		{
+			Console.Write("Please log in. Enter your username: ");
+			string username = Console.ReadLine();
+			Console.Write("Enter your password: ");
+			string password = Console.ReadLine();
+			_loggedInUserId = _loginService.Login(username, password);
+		}
+
+		private void Logout()
+		{
+			_loggedInUserId = _loginService.Logout();
+		}
+
+		private bool NotLoggedIn()
+		{
+			return _loggedInUserId == -1L;
+		}
+
+		private void PrintQuitText()
+		{	
+			Console.WriteLine("Exiting program...");
 		}
 
 		private void printEntries(List<DiaryEntry> entries)
