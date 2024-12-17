@@ -3,13 +3,12 @@ using DigitalEmotionDiary.Services;
 
 namespace DigitalEmotionDiary.UI
 {
-	public class Menu
+	public class UserInterface
 	{
 		private readonly DiaryEntryUI _diaryEntryUI;
-		private readonly UserProfileUI _userProfileUI;
+		private readonly LoginService _loginService;
 		private readonly UserService _userService;
-		private bool _isLoggedIn = false;
-		private long? _loggedInUserId = null;
+		private long _loggedInUserId = -1L;
 
 		private const String WRITE_COMMAND = "WRITE";
     	private const String GET_COMMAND = "GET";
@@ -30,34 +29,28 @@ namespace DigitalEmotionDiary.UI
         	{QUIT_COMMAND, new Command(QUIT_COMMAND, 0)}
     	};
 
-		public Menu(
+		public UserInterface(
 			DiaryEntryUI diaryEntryUI,
-			UserProfileUI userProfileUI,
+			LoginService loginService,
 			UserService userService,
-			DiaryEntryService diaryEntryService,
-			bool isLoggdIn)
+			DiaryEntryService diaryEntryService
+		)
 		{
 			_diaryEntryUI = diaryEntryUI;
-			_userProfileUI = userProfileUI;
+			_loginService = loginService;
 			_userService = userService;
-			_isLoggedIn = isLoggdIn;
 			_diaryEntryService = diaryEntryService;
 		}
 
 		public void Show()
 		{
-			while(!_isLoggedIn)
+			while(_loggedInUserId == -1L)
 			{
 				Console.WriteLine("Please log in. Enter your username : ");
 				string username = Console.ReadLine();
 				Console.WriteLine("Enter your password : ");
 				string password = Console.ReadLine();
-
-				if (_userProfileUI.Login(username, password))
-				{
-					_isLoggedIn = true;
-					_loggedInUserId = _userService.GetUserIdByName(username);
-				}
+				_loggedInUserId = _loginService.Login(username, password);
 			}
 
 			DisplayMainMenu();
@@ -182,7 +175,10 @@ namespace DigitalEmotionDiary.UI
 
 		private void printEntry(DiaryEntry entry)
 		{
-			Console.WriteLine("ENTRY[" + entry.CreatedAt + "]: " + entry.Content);
+			if (entry != null)
+			{
+				Console.WriteLine("ENTRY[" + entry.CreatedAt + "]: " + entry.Content);
+			}
 		}
 	}
 }

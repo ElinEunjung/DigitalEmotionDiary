@@ -56,8 +56,9 @@ namespace DigitalEmotionDiary.Services
 
 		public void UpdateDiaryEntry(long userId, long diaryEntryId, DiaryEntryDTO updateEntry)
 		{
-			var diaryEntry = _diaryEntryRepository.GetDiaryEntriesByUserId(userId)
-									   .FirstOrDefault(de => de.Id == diaryEntryId);
+			var diaryEntry = _diaryEntryRepository
+								.GetDiaryEntriesByUserId(userId)
+								.FirstOrDefault(de => de.Id == diaryEntryId);
 			
 			if (diaryEntry != null)
 			{
@@ -73,8 +74,9 @@ namespace DigitalEmotionDiary.Services
 
 		public DiaryEntry GetDiaryEntry(long userId, long diaryEntryId)
 		{
-			return _diaryEntryRepository.GetUserDiaryEntryByEntryId(userId, diaryEntryId)
-					.FirstOrDefault();
+			return _diaryEntryRepository
+				.GetUserDiaryEntryByEntryId(userId, diaryEntryId)
+				.FirstOrDefault();
 		}
 
 		public IEnumerable<DiaryEntry> GetAllDiaryEntriesAccessibleToUser(long userId)

@@ -1,4 +1,5 @@
-﻿using DigitalEmotionDiary.Services;
+﻿using DigitalEmotionDiary.Models;
+using DigitalEmotionDiary.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace DigitalEmotionDiary.UI
 {
-	public class UserProfileUI
+	public class LoginService
 	{
 		private readonly UserService _userService;
 
-		public UserProfileUI(UserService userService)
+		public LoginService(UserService userService)
 		{
 			_userService = userService;
 		}
@@ -28,26 +29,14 @@ namespace DigitalEmotionDiary.UI
 			Console.WriteLine(result ? "User registered successfully!" : "Registration failed.");
 		}
 
-		public void Login()
+		public long Login(string username, string password)
 		{
-			Console.WriteLine("Enter username: ");
-			string username = Console.ReadLine();
-			Console.WriteLine("Enter password: ");
-			string password = Console.ReadLine();
-
-			if (Login(username, password))
+			User loggedInUser = _userService.Login(username,password);
+			if (loggedInUser != null)
 			{
-				Console.WriteLine("Login successful.");
+				return loggedInUser.Id;
 			}
-			else
-			{
-				Console.WriteLine("Login failed.");
-			}
-		}
-
-		public bool Login(string username, string password)
-		{
-			return _userService.Login(username,password);
+			return -1L;
 		}
 
 		public void UpdateProfile()

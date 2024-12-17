@@ -38,13 +38,13 @@ namespace DigitalEmotionDiary.Services
 			}
 		}
 
-		public bool Login(string username, string password)
+		public User? Login(string username, string password)
 		{
 			var user = _userRepository.GetUserByUsername(username);
 			if (user == null)
 			{
 				Console.WriteLine($"User '{username}' does not exist.");
-				return false;
+				return null;
 			}
 
 			Console.WriteLine($"User '{user.UserName}' found.");
@@ -52,12 +52,10 @@ namespace DigitalEmotionDiary.Services
 			if (user.Password == password)
 			{
 				Console.WriteLine("Login Succeful.");
-				return true;
+				return user;
 			}
-			
-			
 			Console.WriteLine("Login failed. Check your Username or Password.");
-			return false;		
+			return null;
 		}
 
 		public User? GetUserById(long id)

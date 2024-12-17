@@ -20,12 +20,10 @@ namespace DigitalEmotionDiary
 			var diaryEntryService = new DiaryEntryService(diaryEntryRepository, userRepository);
 			
 			var diaryEntryUI = new DiaryEntryUI(diaryEntryService);
-			var userProfileUI = new UserProfileUI(userService);
+			var loginService = new LoginService(userService);
 
-			bool isLoggedIn = false;
-
-			var menu = new Menu(diaryEntryUI, userProfileUI, userService, diaryEntryService, isLoggedIn);
-			menu.Show();
+			var userInterface = new UserInterface(diaryEntryUI, loginService, userService, diaryEntryService);
+			userInterface.Show();
 		}	
 	}
 }
