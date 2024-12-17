@@ -24,10 +24,8 @@ namespace DigitalEmotionDiary
 
 			bool isLoggedIn = false;
 
-			var menu = new Menu(diaryEntryUI, userProfileUI, isLoggedIn);
+			var menu = new Menu(diaryEntryUI, userProfileUI, diaryEntryService, isLoggedIn);
 			menu.Show();
-		}
-
-		
+		}	
 	}
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DigitalEmotionDiary.Models;
+using DigitalEmotionDiary.Services;
 
 namespace DigitalEmotionDiary.UI
 {
@@ -12,23 +14,29 @@ namespace DigitalEmotionDiary.UI
 		private readonly UserProfileUI _userProfileUI;
 		private bool _isLoggedIn = false;
 
-		private static String GET_COMMAND = "GET";
-    	private static String ADD_COMMAND = "ADD";
-    	private static String QUIT_COMMAND = "QUIT";
+		private const String WRITE_COMMAND = "WRITE";
+    	private const String GET_COMMAND = "GET";
+		
+    	private const String DELETE_COMMAND = "DELETE";
+    	private const String QUIT_COMMAND = "QUIT";
 
+
+		private readonly DiaryEntryService _diaryEntryService;
     
-    	private static Dictionary<String, Command> validCommands = new Dictionary<string, Command>
+    	private Dictionary<String, Command> validCommands = new Dictionary<string, Command>
 		{
-        	{ADD_COMMAND, new Command(ADD_COMMAND, 3)},
-        	{GET_COMMAND, new Command(GET_COMMAND, 1)},
+        	{GET_COMMAND, new Command(GET_COMMAND, 3)},
+        	{WRITE_COMMAND, new Command(WRITE_COMMAND, 1)},
+			{DELETE_COMMAND, new Command(DELETE_COMMAND, 2)},
         	{QUIT_COMMAND, new Command(QUIT_COMMAND, 0)}
     	};
 
-		public Menu(DiaryEntryUI diaryEntryUI, UserProfileUI userProfileUI, bool isLoggdIn)
+		public Menu(DiaryEntryUI diaryEntryUI, UserProfileUI userProfileUI, DiaryEntryService diaryEntryService, bool isLoggdIn)
 		{
 			_diaryEntryUI = diaryEntryUI;
 			_userProfileUI = userProfileUI;
 			_isLoggedIn = isLoggdIn;
+			_diaryEntryService = diaryEntryService;
 		}
 
 		public void Show()
@@ -55,6 +63,8 @@ namespace DigitalEmotionDiary.UI
 		{
 			Console.WriteLine("WRITE  - Write entry to Diary");
 			Console.WriteLine("DELETE - Delete entry from Diary");
+			Console.WriteLine("GET    - Get entries from Diary");
+			Console.WriteLine("QUIT   - Exit program");
 		}
 
 		private void GetInputFromUser()
@@ -64,14 +74,13 @@ namespace DigitalEmotionDiary.UI
 			{
 				var userInput = Console.ReadLine();
 				UserCommand = ParseInputAsCommand(userInput);
-
-				if (CommandIsValid(UserCommand) && CommandHasCorrectNrOfArguments(UserCommand) && !UserCommand.IsQuitCommand())
+				if (UserCommand.IsQuitCommand())
+				{
+					break;
+				}
+				if (CommandIsValid(UserCommand) && CommandHasCorrectNrOfArguments(UserCommand))
 				{
 					ExecuteCommand(UserCommand);
-				}
-				else
-				{
-					Console.WriteLine("Error: Unrecognized command " + UserCommand.GetName());
 				}
 			}
 		}
@@ -93,17 +102,37 @@ namespace DigitalEmotionDiary.UI
 			return new Command(command, arguments);
 		}
 			
-		static void ExecuteCommand(Command command)
+		void ExecuteCommand(Command command)
 		{
 			Console.WriteLine("Executing command: " + command.GetName() + " with arguments " + String.Join(" ", command.GetArguments()) + " ...");
+			switch (command.GetName())
+			{
+				case WRITE_COMMAND :
+					WriteDiaryEntry(command.GetArguments());
+					break;
+				case GET_COMMAND :
+					GetDiaryEntries(command.GetArguments());
+					break;
+				case DELETE_COMMAND :
+					GetDiaryEntries(command.GetArguments());
+					break;
+				default:
+					Console.WriteLine("Error, unknown command: " + command.GetName());
+					break;
+			}
 		}
 
-		static bool CommandIsValid(Command command)
+		bool CommandIsValid(Command command)
 		{
-			return validCommands.ContainsKey(command.GetName());
+			if (!validCommands.ContainsKey(command.GetName()))
+			{
+				Console.WriteLine("Error: Unrecognized command " + command.GetName());
+				return false;
+			}
+			return true;
 		}
 
-		static bool CommandHasCorrectNrOfArguments(Command command)
+		bool CommandHasCorrectNrOfArguments(Command command)
 		{
 			var nrOfArgumentsInGivenCommand = command.GetNrOfArguments();
 			var nrOfArgumenntsInValidCommand = validCommands[command.GetName()].GetNrOfArguments();
@@ -113,6 +142,26 @@ namespace DigitalEmotionDiary.UI
 				return false;
 			}
 			return true;
+		}
+
+
+		public void WriteDiaryEntry(String[] arguments)
+		{
+			_diaryEntryService.PublishDiaryEntry(long.Parse(arguments[0]), null);
+		}
+
+		public void GetDiaryEntries(String[] arguments)
+		{
+			var entries = _diaryEntryService.GetAllDiaryEntries();
+			foreach (DiaryEntry entry in entries)
+			{
+				Console.WriteLine("ENTRY: " + entry.Content +  " " + entry.CreatedAt);
+			}
+		}
+
+		public void DeleteDiaryEntry(String[] arguments)
+		{
+			_diaryEntryService.DeleteDiaryEntryByUserIdAndEntryId(long.Parse(arguments[0]), long.Parse(arguments[1]));
 		}
 	}
 }
