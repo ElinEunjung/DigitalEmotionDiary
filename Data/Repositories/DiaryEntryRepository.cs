@@ -1,10 +1,5 @@
 ﻿using DigitalEmotionDiary.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DigitalEmotionDiary.Data.Repositories
 {
@@ -57,6 +52,16 @@ namespace DigitalEmotionDiary.Data.Repositories
 										entry.EntryTags.Any(et => et.Tag.Name == tagName))
 				.Include(entry => entry.EntryTags)
 					.ThenInclude(et =>  et.Tag)
+				.ToList();
+		}
+
+		public IEnumerable<DiaryEntry> GetDiaryEntriesByBackgroundColor(long userId, char backgroundColor)
+		{
+			return _dbContext.DiaryEntry
+				.Where(entry => entry.UserId == userId &&
+										entry.Emotion.BackgroundColor.Any(color => color == backgroundColor))
+				.Include(entry => entry.Emotion)
+					.ThenInclude(et =>  et.BackgroundColor)
 				.ToList();
 		}
 

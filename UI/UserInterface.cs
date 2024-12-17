@@ -1,11 +1,11 @@
-﻿using DigitalEmotionDiary.Models;
+﻿using DigitalEmotionDiary.DTO;
+using DigitalEmotionDiary.Models;
 using DigitalEmotionDiary.Services;
 
 namespace DigitalEmotionDiary.UI
 {
 	public class UserInterface
 	{
-		private readonly DiaryEntryUI _diaryEntryUI;
 		private readonly LoginService _loginService;
 		private readonly UserService _userService;
 		private long _loggedInUserId = -1L;
@@ -24,19 +24,17 @@ namespace DigitalEmotionDiary.UI
 		{
 			{GET_ALL_COMMAND, new Command(GET_ALL_COMMAND, 0)},
         	{GET_COMMAND, new Command(GET_COMMAND, 1)},
-        	{WRITE_COMMAND, new Command(WRITE_COMMAND, 1)},
-			{DELETE_COMMAND, new Command(DELETE_COMMAND, 2)},
+        	{WRITE_COMMAND, new Command(WRITE_COMMAND, 4)},
+			{DELETE_COMMAND, new Command(DELETE_COMMAND, 1)},
         	{QUIT_COMMAND, new Command(QUIT_COMMAND, 0)}
     	};
 
 		public UserInterface(
-			DiaryEntryUI diaryEntryUI,
 			LoginService loginService,
 			UserService userService,
 			DiaryEntryService diaryEntryService
 		)
 		{
-			_diaryEntryUI = diaryEntryUI;
 			_loginService = loginService;
 			_userService = userService;
 			_diaryEntryService = diaryEntryService;
@@ -92,7 +90,7 @@ namespace DigitalEmotionDiary.UI
 			{
 				return Command.BlankCommand();
 			}
-			var commandWithArguments = userInput.Split(" ");
+			var commandWithArguments = userInput.Split(";");
 			String command = commandWithArguments[0];
 			String[] arguments = [];
 			if (commandWithArguments.Length > 1) {
@@ -104,7 +102,6 @@ namespace DigitalEmotionDiary.UI
 			
 		void ExecuteCommand(Command command)
 		{
-			Console.WriteLine("Executing command: " + command.GetName() + " with arguments " + String.Join(" ", command.GetArguments()) + " ...");
 			switch (command.GetName())
 			{
 				case WRITE_COMMAND :
@@ -117,7 +114,7 @@ namespace DigitalEmotionDiary.UI
 					GetAllDiaryEntries();
 					break;
 				case DELETE_COMMAND :
-				GetDiaryEntry(command.GetArguments());
+					DeleteDiaryEntry(command.GetArguments());
 					break;
 				default:
 					Console.WriteLine("Error, unknown command: " + command.GetName());
@@ -150,7 +147,13 @@ namespace DigitalEmotionDiary.UI
 
 		public void WriteDiaryEntry(String[] arguments)
 		{
-			_diaryEntryService.PublishDiaryEntry(long.Parse(arguments[0]), null);
+			DiaryEntryDTO entryDTO = new DiaryEntryDTO();
+			entryDTO.Title = arguments[0];
+			entryDTO.Content = arguments[1];
+			entryDTO.IsPublic = arguments[2] == "true";
+			entryDTO.EmotionId = int.Parse(arguments[3]);
+
+			_diaryEntryService.PublishDiaryEntry(_loggedInUserId, entryDTO);
 		}
 
 		public void GetDiaryEntry(String[] arguments)
@@ -170,14 +173,14 @@ namespace DigitalEmotionDiary.UI
 
 		public void DeleteDiaryEntry(String[] arguments)
 		{
-			_diaryEntryService.DeleteDiaryEntryByUserIdAndEntryId(long.Parse(arguments[0]), long.Parse(arguments[1]));
+			_diaryEntryService.DeleteDiaryEntryByUserIdAndEntryId(_loggedInUserId, long.Parse(arguments[0]));
 		}
 
 		private void printEntry(DiaryEntry entry)
 		{
 			if (entry != null)
 			{
-				Console.WriteLine("ENTRY[" + entry.CreatedAt + "]: " + entry.Content);
+				Console.WriteLine("ENTRY[" + entry.CreatedAt + "]\nTitle: " + entry.Title + "\nContent: " + entry.Content + "\n");
 			}
 		}
 	}

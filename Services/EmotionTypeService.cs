@@ -8,5 +8,6 @@ namespace DigitalEmotionDiary.Services
 {
 	public class EmotionTypeService
 	{
+		
 	}
 }

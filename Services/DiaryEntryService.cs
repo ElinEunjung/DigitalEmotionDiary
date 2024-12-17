@@ -32,21 +32,15 @@ namespace DigitalEmotionDiary.Services
 				throw new ArgumentException("DiaryEntryDTO cannot be null.", nameof(dto));
 			}
 
-			var user = _userRepository.GetUserById(userId);
-			if (user == null)
-			{
-				throw new ArgumentException($"User with ID {userId} does not exist");
-			}
-
 			var entry = new DiaryEntry
 			{
 				UserId = userId,
 				Title = dto.Title,
 				Content = dto.Content,
-				CreatedAt =dto.CreatedAt,
-				IsPublic = true,
+				CreatedAt = DateTime.Now,
+				IsPublic = dto.IsPublic,
 				EmotionId = dto.EmotionId,
-				ImageId =dto.ImageId
+				ImageId = dto.ImageId
 			}; 
 			
 
@@ -106,6 +100,12 @@ namespace DigitalEmotionDiary.Services
 			var entries = _diaryEntryRepository.GetDiaryEntriesByTag(userId, tagName).ToList();
 
 			return entries;
+		}
+
+		public List<DiaryEntry> FilterDiaryEntriesByBackgroundColor(long userId, char backgroundColor)
+		{
+			var entriesByBackgroundColor = _diaryEntryRepository.GetDiaryEntriesByBackgroundColor(userId, backgroundColor);
+			return entriesByBackgroundColor.ToList();
 		}
 
 		public void SetDiaryEntryVisibility(long userId, long diaryEntryId, bool isPublic)

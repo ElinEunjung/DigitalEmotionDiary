@@ -35,7 +35,7 @@ namespace DigitalEmotionDiary.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"Data Source = Resources/DigitalEmotionDiary.db");
+            optionsBuilder.UseSqlite(@"Data Source = Resources/DigitalEmotionDiary3.db");
 			optionsBuilder.ConfigureWarnings(warnings =>
 	        warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
 		}
