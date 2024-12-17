@@ -21,17 +21,17 @@ namespace DigitalEmotionDiary.Services
 		{
 			_commentRepository = commentRepository;
 		}
-		public void CreateComment(long diaryEntryId, long userId, string content)
+		public void PostComment(long diaryEntryId, long userId, string content)
 		{
 			var comment = new Comment
 			{
-				DiaryEntryId = diaryEntryId,
-				UserId = userId,
 				Content = content,
 				CreatedAt = DateTime.Now,
+				DiaryEntryId = diaryEntryId,
+				UserId = userId			
 			};
 
-			_commentRepository.CreateComment(comment);
+			_commentRepository.AddComment(comment);
 			_commentRepository.SaveChanges();
 		}
 
@@ -41,16 +41,16 @@ namespace DigitalEmotionDiary.Services
 			_commentRepository.SaveChanges();
 		}
 
-		public void DeleteCommentById(long commentId)
+		public void DeleteComment(long userId, long commentId)
 		{
-			_commentRepository.DeleteCommentById(commentId);
+			_commentRepository.DeleteCommentByUserIdAndCommentId(userId, commentId);
 			_commentRepository.SaveChanges();
 
 		}
 
-		public List<Comment> GetCommentsByDiaryEntry(int diaryEntryId)
+		public List<Comment> GetCommentsByDiaryEntryId(int diaryEntryId)
 		{
-			return _commentRepository.GetCommentsByDiaryEntry(diaryEntryId);
+			return _commentRepository.GetCommentsByDiaryEntrId(diaryEntryId);
 		}
 	}
 }

@@ -17,10 +17,9 @@ namespace DigitalEmotionDiary.Data.Repositories
 		{
 			_dbContext = dbContext;
 		}
-		public void CreateComment(Comment comment)
+		public void AddComment(Comment comment)
 		{
-			_dbContext.Comment.Add(comment);
-			
+			_dbContext.Comment.Add(comment);			
 		}
 
 		public void UpdateComment(Comment comment)
@@ -28,17 +27,17 @@ namespace DigitalEmotionDiary.Data.Repositories
 			_dbContext.Comment.Update(comment);
 			
 		}
-
-		public void DeleteCommentById(long commentId)
+		
+		public void DeleteCommentByUserIdAndCommentId(long userId, long commentId)
 		{
-			var comment = _dbContext.Comment.Find(commentId);
+			var comment = _dbContext.Comment.FirstOrDefault(c => c.Id == commentId && c.UserId == userId);
 			if (comment != null)
 			{
 				_dbContext.Comment.Remove(comment);
 			}
 		}
 
-		public List<Comment> GetCommentsByDiaryEntry(int diaryEntryId)
+		public List<Comment> GetCommentsByDiaryEntrId(int diaryEntryId)
 		{
 			return _dbContext.Comment
 				.Where(c => c.DiaryEntryId == diaryEntryId)

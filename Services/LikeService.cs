@@ -21,7 +21,7 @@ namespace DigitalEmotionDiary.Services
 		}
 
 
-		public void AddLike(long diaryEntryId, long userId)
+		public void LikeEntry(long diaryEntryId, long userId)
 		{
 			if(_likeRepository.Exists(diaryEntryId, userId))
 			{
@@ -34,19 +34,13 @@ namespace DigitalEmotionDiary.Services
 				UserId = userId 
 			};
 
-			_likeRepository.AddLike(like);
+			_likeRepository.AddLikeToEntry(diaryEntryId, userId);
 			_likeRepository.SaveChanges();
 		}
 
-		public void RemoveLike(long diaryEntryId, long userId)
+		public void UnLikeEntry(long diaryEntryId, long userId)
 		{
-			var like = _likeRepository.GetLike(diaryEntryId, userId);
-			if (like == null)
-			{
-				throw new KeyNotFoundException("The specified like does not exist.");
-			}
-
-			_likeRepository.RemoveLike(like);
+			_likeRepository.RemoveLikeFromEntry(diaryEntryId, userId);
 			_likeRepository.SaveChanges();
 		}
 

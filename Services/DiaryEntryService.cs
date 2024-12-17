@@ -23,11 +23,11 @@ namespace DigitalEmotionDiary.Services
 			_userRepository = userRepository;
 		}
 
-		public void PublishDiaryEntry(long userId, DiaryEntryDTO diaryEntry)
+		public void PublishDiaryEntry(long userId, DiaryEntryDTO dto)
 		{
-			if (diaryEntry == null)
+			if (dto == null)
 			{
-				throw new ArgumentException(nameof(diaryEntry), "DiaryEntryDTO cannot be null.");
+				throw new ArgumentException("DiaryEntryDTO cannot be null.", nameof(dto));
 			}
 
 			var user = _userRepository.GetUserById(userId);
@@ -39,12 +39,12 @@ namespace DigitalEmotionDiary.Services
 			var entry = new DiaryEntry
 			{
 				UserId = userId,
-				Title = diaryEntry.Title,
-				Content = diaryEntry.Content,
-				CreatedAt = diaryEntry.CreatedAt,
+				Title = dto.Title,
+				Content = dto.Content,
+				CreatedAt =dto.CreatedAt,
 				IsPublic = true,
-				EmotionId = diaryEntry.EmotionId,
-				ImageId = diaryEntry.ImageId
+				EmotionId = dto.EmotionId,
+				ImageId =dto.ImageId
 			}; 
 			
 
@@ -73,9 +73,9 @@ namespace DigitalEmotionDiary.Services
 			return _diaryEntryRepository.GetAllDiaryEntry();
 		}
 
-		public void DeleteDiaryEntryById(long userId, long diaryEntryId)
+		public void DeleteDiaryEntryByUserIdAndEntryId(long userId, long diaryEntryId)
 		{    
-			_diaryEntryRepository.DeleteDiaryEntryById(diaryEntryId);
+			_diaryEntryRepository.DeleteDiaryEntryByUserIdAndEntryId(userId, diaryEntryId);
 			_diaryEntryRepository.SaveChanges();
 		}
 
@@ -83,6 +83,16 @@ namespace DigitalEmotionDiary.Services
 		{
 			return _diaryEntryRepository.GetDiaryEntriesByEmotion(userId,emotionId, startDate, endDate);
 			
+		}
+
+		public List<DiaryEntry> FilterDiaryEntriesByTag(long userId, string tagName)
+		{
+			if (string.IsNullOrEmpty(tagName))
+				throw new ArgumentNullException(nameof(tagName), "Tag name cannot be null or empty.");
+
+			var entries = _diaryEntryRepository.GetDiaryEntriesByTag(userId, tagName).ToList();
+
+			return entries;
 		}
 
 		public void SetDiaryEntryVisibility(long userId, long diaryEntryId, bool isPublic)

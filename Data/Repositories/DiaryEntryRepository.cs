@@ -37,11 +37,13 @@ namespace DigitalEmotionDiary.Data.Repositories
 
 		}
 
-		public IEnumerable<DiaryEntry> GetDiaryEntriesByTag(Tag tag)
+		public IEnumerable<DiaryEntry> GetDiaryEntriesByTag(long userId, string tagName)
 		{
-			return (IEnumerable<DiaryEntry>)_dbContext.EntryTag
-				.Where(entryTag => entryTag.TagId == tag.Id)
-				.Select(EntryTag => EntryTag.DiaryEntryId)
+			return _dbContext.DiaryEntry
+				.Where(entry => entry.UserId == userId &&
+										entry.EntryTags.Any(et => et.Tag.Name == tagName))
+				.Include(entry => entry.EntryTags)
+					.ThenInclude(et =>  et.Tag)
 				.ToList();
 		}
 
@@ -94,9 +96,10 @@ namespace DigitalEmotionDiary.Data.Repositories
 		{
 			return _dbContext.DiaryEntry.ToList();
 		}
-		public void DeleteDiaryEntryById(long diaryEntryId)
+		public void DeleteDiaryEntryByUserIdAndEntryId(long userId, long entryId)
 		{
-			var diaryEntry = _dbContext.DiaryEntry.Find(diaryEntryId);
+		
+			var diaryEntry = _dbContext.DiaryEntry.FirstOrDefault(de => de.UserId == userId && de.Id == entryId );
 			if (diaryEntry != null)
 			{
 				_dbContext.DiaryEntry.Remove(diaryEntry);
