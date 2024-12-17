@@ -70,9 +70,18 @@ namespace DigitalEmotionDiary.Services
 			}
 		}
 
-		public IEnumerable<DiaryEntry> GetAllDiaryEntries()
+
+		public DiaryEntry GetDiaryEntry(long userId, long diaryEntryId)
 		{
-			return _diaryEntryRepository.GetAllDiaryEntry();
+			return _diaryEntryRepository.GetUserDiaryEntryByEntryId(userId, diaryEntryId)
+					.FirstOrDefault();
+		}
+
+		public IEnumerable<DiaryEntry> GetAllDiaryEntriesAccessibleToUser(long userId)
+		{
+			IEnumerable<DiaryEntry> ownEntries = _diaryEntryRepository.GetDiaryEntriesByUserId(userId);
+			IEnumerable<DiaryEntry> nonOwnerPublicEntries =  _diaryEntryRepository.GetDiaryEntriesNonOwnedOpenEntries(userId);
+			return ownEntries.Concat(nonOwnerPublicEntries);
 		}
 
 		public void DeleteDiaryEntryByUserIdAndEntryId(long userId, long diaryEntryId)

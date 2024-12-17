@@ -16,42 +16,6 @@ namespace DigitalEmotionDiary.UI
 			_userService = userService;
 		}
 
-		public void ShowUserProfileMenu()
-		{
-			while (true)
-			{
-				Console.Clear();
-				Console.WriteLine(":::::: User Profile Menu :::::");
-				Console.WriteLine("1. Register");
-				Console.WriteLine("2. Log In");
-				Console.WriteLine("3. Update Profile");
-				Console.WriteLine("4. Return to Main Menu");
-				Console.WriteLine("Choose an option: ");
-
-				var choice = Console.ReadLine();
-				switch (choice)
-				{
-					case "1":
-						RegisterUser();
-						break;
-					case "2":
-						Login();
-						break;
-					case "3":
-						UpdateProfile();
-						break;
-					case "4":
-						return;
-					default:
-						Console.WriteLine("Invalied option. Try again.");
-						break;
-				}
-
-				Console.WriteLine("Press Enter to continue...");
-				Console.ReadLine();
-			}
-		}
-
 		public void RegisterUser()
 		{
 			Console.WriteLine("Enter new username: ");
@@ -98,12 +62,5 @@ namespace DigitalEmotionDiary.UI
 			var result = _userService.UpdateUserProfile(newUsername, newEmail, newPassword);
 			Console.WriteLine(result ? "Profile updated successfully!" : "Update failed.");
 		}
-
-		//public void LogOut()
-		//{
-		//	// TODO: Update UserRepository & UserService with Session or Token logic
-		//	//_userService.LogOut();
-		//	//Console.WriteLine("You have been logged out.");
-		//}
 	}
 }

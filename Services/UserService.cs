@@ -65,6 +65,13 @@ namespace DigitalEmotionDiary.Services
 			return _userRepository.GetUserById(id);
 		}
 
+		public long? GetUserIdByName(String username)
+		{
+			User user = _userRepository.GetUserByUsername(username);
+			return user.Id;
+		}
+
+
 		public IEnumerable<User> GetAllUsers()
 		{
 			return _userRepository.GetAllUsers();

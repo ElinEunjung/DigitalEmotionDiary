@@ -23,6 +23,19 @@ namespace DigitalEmotionDiary.Data.Repositories
 				.Where(de => de.UserId == userId).ToList();
 		}
 
+	    public IEnumerable<DiaryEntry> GetUserDiaryEntryByEntryId(long userId, long entryId)
+		{
+			return _dbContext.DiaryEntry
+				.Where(de => de.UserId == userId && de.Id == entryId).ToList();
+		}
+
+
+		public IEnumerable<DiaryEntry> GetDiaryEntriesNonOwnedOpenEntries(long userId)
+		{
+			return _dbContext.DiaryEntry
+				.Where(de => de.UserId != userId && de.IsPublic == true).ToList();
+		}
+
 		public IEnumerable<DiaryEntry> GetDiaryEntriesByEmotion(long userId, int emotionId, DateTime? startDate , DateTime? endDate) 
 		{
 			var query = _dbContext.DiaryEntry.Where(de => de.UserId == userId && de.EmotionId == emotionId);
