@@ -18,6 +18,11 @@ namespace DigitalEmotionDiary.Data.Repositories
 			
 		}
 
+		public void UploadEntryImage(Image image)
+		{
+			_dbContext.Image.Add(image);
+		}
+
 		public Image? GetImageById(long id)
 		{
 			return _dbContext.Image
@@ -32,17 +37,15 @@ namespace DigitalEmotionDiary.Data.Repositories
 				.ToList();
 		}
 
-		public void UploadEntryImage(Image image)
-		{
-			_dbContext.Image.Add(image);
-			_dbContext.SaveChanges();
-		}
-
 		public void DeleteImage(long id)
 		{
 			var image = _dbContext.Image.FirstOrDefault(img => img.Id == id);
-			_dbContext.Image.Remove(image);
-			_dbContext.SaveChanges();
+			
+			if (image != null)
+			{	
+				_dbContext.Image.Remove(image);
+			}
+			
 		}
 
 		public void SaveChanges()

@@ -51,7 +51,6 @@ namespace DigitalEmotionDiary.Data.Repositories
 			if (diaryEntry != null)
 			{
 				diaryEntry.IsPublic = isPublic;
-				_dbContext.SaveChanges();
 			}
 		}
 
@@ -67,7 +66,6 @@ namespace DigitalEmotionDiary.Data.Repositories
 				};
 
 				_dbContext.EntryTag.Add(entryTag);
-				_dbContext.SaveChanges();
 			}
 		}
 
@@ -79,20 +77,17 @@ namespace DigitalEmotionDiary.Data.Repositories
 			if (entryTag != null) 
 			{
 				_dbContext.EntryTag.Remove(entryTag);
-				_dbContext.SaveChanges();
 			}
 		}
 
 		public void CreateDiaryEntry(DiaryEntry diaryEntry)
 		{
 			_dbContext.DiaryEntry.Add(diaryEntry);
-			_dbContext.SaveChanges();
 		}
 
 		public void UpdateDiaryEntry(DiaryEntry diaryEntry)
 		{
 			_dbContext.DiaryEntry.Update(diaryEntry);
-			_dbContext.SaveChanges();
 		}
 
 		public IEnumerable<DiaryEntry> GetAllDiaryEntry()
@@ -105,7 +100,6 @@ namespace DigitalEmotionDiary.Data.Repositories
 			if (diaryEntry != null)
 			{
 				_dbContext.DiaryEntry.Remove(diaryEntry);
-				_dbContext.SaveChanges();
 			}
 		}
 
