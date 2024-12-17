@@ -15,6 +15,7 @@ namespace DigitalEmotionDiary.UI
 		private const String GET_ALL_COMMAND = "GET_ALL";
 		
     	private const String DELETE_COMMAND = "DELETE";
+		private const String HELP_COMMAND = "HELP";
     	private const String QUIT_COMMAND = "QUIT";
 
 
@@ -26,7 +27,8 @@ namespace DigitalEmotionDiary.UI
         	{GET_COMMAND, new Command(GET_COMMAND, 1)},
         	{WRITE_COMMAND, new Command(WRITE_COMMAND, 4)},
 			{DELETE_COMMAND, new Command(DELETE_COMMAND, 1)},
-        	{QUIT_COMMAND, new Command(QUIT_COMMAND, 0)}
+        	{QUIT_COMMAND, new Command(QUIT_COMMAND, 0)},
+			{HELP_COMMAND, new Command(HELP_COMMAND, 0)}
     	};
 
 		public UserInterface(
@@ -44,9 +46,9 @@ namespace DigitalEmotionDiary.UI
 		{
 			while(_loggedInUserId == -1L)
 			{
-				Console.WriteLine("Please log in. Enter your username : ");
+				Console.Write("Please log in. Enter your username: ");
 				string username = Console.ReadLine();
-				Console.WriteLine("Enter your password : ");
+				Console.Write("Enter your password: ");
 				string password = Console.ReadLine();
 				_loggedInUserId = _loginService.Login(username, password);
 			}
@@ -58,11 +60,15 @@ namespace DigitalEmotionDiary.UI
 
 		private void DisplayMainMenu()
 		{
+			Console.WriteLine("MENU");
+			Console.WriteLine("---------------------------------------------");
 			Console.WriteLine("WRITE   - Write entry to Diary");
 			Console.WriteLine("DELETE  - Delete entry from Diary");
 			Console.WriteLine("GET     - Get a specific entry from the Diary");
 			Console.WriteLine("GET_ALL - Get all entries from the Diary");
+			Console.WriteLine("HELP    - Display this menu");
 			Console.WriteLine("QUIT    - Exit program");
+			Console.WriteLine("---------------------------------------------");
 		}
 
 		private void GetInputFromUser()
@@ -70,6 +76,7 @@ namespace DigitalEmotionDiary.UI
 			var UserCommand = Command.BlankCommand();
 			while (!UserCommand.IsQuitCommand())
 			{
+				Console.Write("COMMAND: ");
 				var userInput = Console.ReadLine();
 				UserCommand = ParseInputAsCommand(userInput);
 				if (UserCommand.IsQuitCommand())
@@ -115,6 +122,9 @@ namespace DigitalEmotionDiary.UI
 					break;
 				case DELETE_COMMAND :
 					DeleteDiaryEntry(command.GetArguments());
+					break;
+				case HELP_COMMAND :
+					DisplayMainMenu();
 					break;
 				default:
 					Console.WriteLine("Error, unknown command: " + command.GetName());
