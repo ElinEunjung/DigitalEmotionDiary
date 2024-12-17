@@ -13,7 +13,7 @@ namespace DigitalEmotionDiary.UI
 		private const String WRITE_COMMAND = "WRITE";
     	private const String GET_COMMAND = "GET";
 		private const String GET_ALL_COMMAND = "GET_ALL";
-		
+		private const String GET_ENTRY_BY_COLOR_COMMAND = "GET_ENTRY_BY_COLOR";
     	private const String DELETE_COMMAND = "DELETE";
 		private const String HELP_COMMAND = "HELP";
     	private const String QUIT_COMMAND = "QUIT";
@@ -23,12 +23,13 @@ namespace DigitalEmotionDiary.UI
     
     	private Dictionary<String, Command> validCommands = new Dictionary<string, Command>
 		{
+			{GET_COMMAND, new Command(GET_COMMAND, 1)},
 			{GET_ALL_COMMAND, new Command(GET_ALL_COMMAND, 0)},
-        	{GET_COMMAND, new Command(GET_COMMAND, 1)},
-        	{WRITE_COMMAND, new Command(WRITE_COMMAND, 4)},
+			{GET_ENTRY_BY_COLOR_COMMAND, new Command(GET_ENTRY_BY_COLOR_COMMAND, 1)},
+			{WRITE_COMMAND, new Command(WRITE_COMMAND, 4)},
 			{DELETE_COMMAND, new Command(DELETE_COMMAND, 1)},
-        	{QUIT_COMMAND, new Command(QUIT_COMMAND, 0)},
-			{HELP_COMMAND, new Command(HELP_COMMAND, 0)}
+			{HELP_COMMAND, new Command(HELP_COMMAND, 0)},
+			{QUIT_COMMAND, new Command(QUIT_COMMAND, 0)}
     	};
 
 		public UserInterface(
@@ -126,6 +127,9 @@ namespace DigitalEmotionDiary.UI
 				case HELP_COMMAND :
 					DisplayMainMenu();
 					break;
+				case GET_ENTRY_BY_COLOR_COMMAND :
+					GetEntryByColor(command.GetArguments());
+					break;
 				default:
 					Console.WriteLine("Error, unknown command: " + command.GetName());
 					break;
@@ -154,7 +158,6 @@ namespace DigitalEmotionDiary.UI
 			return true;
 		}
 
-
 		public void WriteDiaryEntry(String[] arguments)
 		{
 			DiaryEntryDTO entryDTO = new DiaryEntryDTO();
@@ -175,15 +178,27 @@ namespace DigitalEmotionDiary.UI
 		public void GetAllDiaryEntries()
 		{
 			var entries = _diaryEntryService.GetAllDiaryEntriesAccessibleToUser((long) _loggedInUserId);
-			foreach (DiaryEntry entry in entries)
-			{
-				printEntry(entry);
-			}
+			printEntries(entries);
+		}
+
+		public void GetEntryByColor(String[] arguments)
+		{
+			var entriesByColor = _diaryEntryService.GetEntryByColor(_loggedInUserId, arguments[0]);
+			printEntries(entriesByColor);
+
 		}
 
 		public void DeleteDiaryEntry(String[] arguments)
 		{
 			_diaryEntryService.DeleteDiaryEntryByUserIdAndEntryId(_loggedInUserId, long.Parse(arguments[0]));
+		}
+
+		private void printEntries(List<DiaryEntry> entries)
+		{
+			foreach (DiaryEntry entry in entries)
+			{
+				printEntry(entry);
+			}
 		}
 
 		private void printEntry(DiaryEntry entry)

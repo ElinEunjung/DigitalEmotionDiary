@@ -55,13 +55,11 @@ namespace DigitalEmotionDiary.Data.Repositories
 				.ToList();
 		}
 
-		public IEnumerable<DiaryEntry> GetDiaryEntriesByBackgroundColor(long userId, char backgroundColor)
+		public IEnumerable<DiaryEntry> GetDiaryEntriesByBackgroundColor(long userId, String backgroundColor)
 		{
 			return _dbContext.DiaryEntry
 				.Where(entry => entry.UserId == userId &&
-										entry.Emotion.BackgroundColor.Any(color => color == backgroundColor))
-				.Include(entry => entry.Emotion)
-					.ThenInclude(et =>  et.BackgroundColor)
+										entry.Emotion.BackgroundColor == backgroundColor)
 				.ToList();
 		}
 

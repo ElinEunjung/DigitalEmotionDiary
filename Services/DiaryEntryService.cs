@@ -3,6 +3,7 @@ using DigitalEmotionDiary.DTO;
 using DigitalEmotionDiary.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,11 +74,19 @@ namespace DigitalEmotionDiary.Services
 				.FirstOrDefault();
 		}
 
-		public IEnumerable<DiaryEntry> GetAllDiaryEntriesAccessibleToUser(long userId)
+		public List<DiaryEntry> GetAllDiaryEntriesAccessibleToUser(long userId)
 		{
 			IEnumerable<DiaryEntry> ownEntries = _diaryEntryRepository.GetDiaryEntriesByUserId(userId);
 			IEnumerable<DiaryEntry> nonOwnerPublicEntries =  _diaryEntryRepository.GetDiaryEntriesNonOwnedOpenEntries(userId);
-			return ownEntries.Concat(nonOwnerPublicEntries);
+			return ownEntries
+			.Concat(nonOwnerPublicEntries)
+			.ToList();
+		}
+
+		public List<DiaryEntry> GetEntryByColor(long userId, string backgroundColor)
+		{
+			IEnumerable<DiaryEntry> entriesBySpecificColor = _diaryEntryRepository.GetDiaryEntriesByBackgroundColor(userId, backgroundColor);
+			return entriesBySpecificColor.ToList();
 		}
 
 		public void DeleteDiaryEntryByUserIdAndEntryId(long userId, long diaryEntryId)
@@ -86,9 +95,11 @@ namespace DigitalEmotionDiary.Services
 			_diaryEntryRepository.SaveChanges();
 		}
 
-		public IEnumerable<DiaryEntry> FilterDiaryEntriesByEmotion(long userId, int emotionId, DateTime? startDate, DateTime? endDate)
+		public List<DiaryEntry> FilterDiaryEntriesByEmotion(long userId, int emotionId, DateTime? startDate, DateTime? endDate)
 		{
-			return _diaryEntryRepository.GetDiaryEntriesByEmotion(userId,emotionId, startDate, endDate);
+			return _diaryEntryRepository
+			.GetDiaryEntriesByEmotion(userId,emotionId, startDate, endDate)
+			.ToList();
 			
 		}
 
@@ -102,7 +113,7 @@ namespace DigitalEmotionDiary.Services
 			return entries;
 		}
 
-		public List<DiaryEntry> FilterDiaryEntriesByBackgroundColor(long userId, char backgroundColor)
+		public List<DiaryEntry> FilterDiaryEntriesByBackgroundColor(long userId, string backgroundColor)
 		{
 			var entriesByBackgroundColor = _diaryEntryRepository.GetDiaryEntriesByBackgroundColor(userId, backgroundColor);
 			return entriesByBackgroundColor.ToList();
