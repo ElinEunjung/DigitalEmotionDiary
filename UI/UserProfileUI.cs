@@ -25,9 +25,7 @@ namespace DigitalEmotionDiary.UI
 				Console.WriteLine("1. Register");
 				Console.WriteLine("2. Log In");
 				Console.WriteLine("3. Update Profile");
-				Console.WriteLine("4. View Profile");
-				Console.WriteLine("5. Log Out");
-				Console.WriteLine("6. Return to Main Menu");
+				Console.WriteLine("4. Return to Main Menu");
 				Console.WriteLine("Choose an option: ");
 
 				var choice = Console.ReadLine();
@@ -43,12 +41,6 @@ namespace DigitalEmotionDiary.UI
 						UpdateProfile();
 						break;
 					case "4":
-						ViewProfile();
-						break;
-					case "5":
-						LogOut();
-						break;
-					case "6":
 						return;
 					default:
 						Console.WriteLine("Invalied option. Try again.");
@@ -62,13 +54,14 @@ namespace DigitalEmotionDiary.UI
 
 		public void RegisterUser()
 		{
-			Console.WriteLine("Type your new username: ");
+			Console.WriteLine("Enter new username: ");
 			string NewUserName = Console.ReadLine();
-			Console.WriteLine("Type your new password: ");
+			Console.WriteLine("Enter new  password: ");
 			string NewPassWord = Console.ReadLine();
-			Console.WriteLine("Type your email: ");
+			Console.WriteLine("Enter new email address: ");
 			string Email = Console.ReadLine();
-			_userService.RegisterUser(NewUserName, NewPassWord, Email);
+			var result = _userService.RegisterUser(NewUserName, NewPassWord, Email);
+			Console.WriteLine(result ? "User registered successfully!" : "Registration failed.");
 		}
 
 		public void Login()
@@ -95,13 +88,22 @@ namespace DigitalEmotionDiary.UI
 
 		public void UpdateProfile()
 		{
+			Console.Write("Enter your username (leave blank to keep current): ");
+			var newUsername = Console.ReadLine();
+			Console.Write("Enter new email (leave blank to keep current): ");
+			var newEmail = Console.ReadLine();
+			Console.Write("Enter new password (leave blank to keep current): ");
+			var newPassword = Console.ReadLine();
+
+			var result = _userService.UpdateUserProfile(newUsername, newEmail, newPassword);
+			Console.WriteLine(result ? "Profile updated successfully!" : "Update failed.");
 		}
 
-		public void ViewProfile()
-		{
-		}
-		public void LogOut()
-		{
-		}
+		//public void LogOut()
+		//{
+		//	// TODO: Update UserRepository & UserService with Session or Token logic
+		//	//_userService.LogOut();
+		//	//Console.WriteLine("You have been logged out.");
+		//}
 	}
 }

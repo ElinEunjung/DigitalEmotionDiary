@@ -16,6 +16,7 @@ namespace DigitalEmotionDiary.UI
 			_diaryEntryService = diaryEntryService;
 		}
 
+		
 		public void WriteDiaryEntry()
 		{
 			// WriteDiaryEntry logic
