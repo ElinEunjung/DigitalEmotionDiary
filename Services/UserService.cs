@@ -17,6 +17,40 @@ namespace DigitalEmotionDiary.Services
 			_userRepository = userRepository;
 		}
 
+		public void RegisterUser(string username, string email, string password)
+		{
+			var user = new User
+			{
+				UserName = username,
+				Email = email,
+				Password = password
+			};
+			_userRepository.CreateUser(user);
+			_userRepository.SaveChanges();
+		}
+
+		public bool Login(string username, string password)
+		{
+			var user = _userRepository.GetUserByUsername(username);
+			if (user == null)
+			{
+				Console.WriteLine($"User '{username}' does not exist.");
+				return false;
+			}
+
+			Console.WriteLine($"User '{user.UserName}' found.");
+
+			if (user.Password == password)
+			{
+				Console.WriteLine("Login Succeful.");
+				return true;
+			}
+			
+			
+			Console.WriteLine("Login failed. Check your Username or Password.");
+			return false;		
+		}
+
 		public User? GetUserById(long id)
 		{
 			return _userRepository.GetUserById(id);
@@ -33,11 +67,6 @@ namespace DigitalEmotionDiary.Services
 			return users.Any(u => u.Email == email);
 		}
 
-		public void CreateUser(User user)
-		{
-			_userRepository.CreateUser(user);
-			_userRepository.SaveChanges();
-		}
 
 		public void UpdateUser(User user)
 		{

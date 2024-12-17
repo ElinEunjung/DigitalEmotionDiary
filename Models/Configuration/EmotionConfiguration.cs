@@ -21,14 +21,14 @@ namespace DigitalEmotionDiary.Models.Configuration
 				   .OnDelete(DeleteBehavior.Restrict);
 
 			builder.HasData(
-			   new Emotion { Id = 1, EmotionTypeId = 1, BackgroundColor = "#ffd700" },
-			   new Emotion { Id = 2, EmotionTypeId = 2, BackgroundColor = "#ff7f50" },
-			   new Emotion { Id = 3, EmotionTypeId = 3, BackgroundColor = "#c39797" },
-			   new Emotion { Id = 4, EmotionTypeId = 4, BackgroundColor = "#794044" },
-			   new Emotion { Id = 5, EmotionTypeId = 5, BackgroundColor = "#ff4040" },
-			   new Emotion { Id = 6, EmotionTypeId = 6, BackgroundColor = "#808080" },
-			   new Emotion { Id = 7, EmotionTypeId = 7, BackgroundColor = "#ff0000" },
-			   new Emotion { Id = 8, EmotionTypeId = 8, BackgroundColor = "#eeeeee" }
+			   new Emotion { Id = 1, EmotionTypeId = 1, BackgroundColor = "Yellow" },
+			   new Emotion { Id = 2, EmotionTypeId = 2, BackgroundColor = "Orange" },
+			   new Emotion { Id = 3, EmotionTypeId = 3, BackgroundColor = "Beige" },
+			   new Emotion { Id = 4, EmotionTypeId = 4, BackgroundColor = "Brown" },
+			   new Emotion { Id = 5, EmotionTypeId = 5, BackgroundColor = "Red" },
+			   new Emotion { Id = 6, EmotionTypeId = 6, BackgroundColor = "Grey" },
+			   new Emotion { Id = 7, EmotionTypeId = 7, BackgroundColor = "Black" },
+			   new Emotion { Id = 8, EmotionTypeId = 8, BackgroundColor = "White" }
 				);
 
 		}

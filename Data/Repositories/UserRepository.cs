@@ -16,6 +16,15 @@ namespace DigitalEmotionDiary.Data.Repositories
 			_dbContext = dbContext;
 		}
 
+		public void CreateUser(User user)
+		{
+			_dbContext.User.Add(user);
+		}
+
+		public User? GetUserByUsername(string username)
+		{
+			return (User?)_dbContext.User.SingleOrDefault(u => u.UserName == username);
+		}
 		public User? GetUserById(long id)
 		{
 			return _dbContext.User.FirstOrDefault(u => u.Id == id);
@@ -26,11 +35,6 @@ namespace DigitalEmotionDiary.Data.Repositories
 			return _dbContext.User.ToList();
 		}
 
-		
-		public void CreateUser(User user)
-		{
-			_dbContext.User.Add(user);
-		}
 
 		public void UpdateUser(User user)
 		{

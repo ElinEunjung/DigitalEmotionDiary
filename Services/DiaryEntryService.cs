@@ -23,6 +23,8 @@ namespace DigitalEmotionDiary.Services
 			_userRepository = userRepository;
 		}
 
+		
+
 		public void PublishDiaryEntry(long userId, DiaryEntryDTO dto)
 		{
 			if (dto == null)
