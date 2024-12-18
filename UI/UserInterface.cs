@@ -86,11 +86,11 @@ namespace DigitalEmotionDiary.UI
 				Console.Write("COMMAND: ");
 				var userInput = Console.ReadLine();
 				UserCommand = ParseInputAsCommand(userInput);
-				if (CommandIsValid(UserCommand) && CommandHasCorrectNrOfArguments(UserCommand))
+				if (!UserCommand.IsBlankCommand() && CommandIsValid(UserCommand) && CommandHasCorrectNrOfArguments(UserCommand))
 				{
 					ExecuteCommand(UserCommand);
 				}
-				if (UserCommand.IsQuitCommand() || UserCommand.isLogoutCommand())
+				if (UserCommand.IsQuitCommand() || UserCommand.IsLogoutCommand())
 				{
 					break;
 				}

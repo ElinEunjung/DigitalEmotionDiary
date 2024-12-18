@@ -24,9 +24,14 @@ class Command
         return _name == "QUIT";
     }
 
-    public bool isLogoutCommand()
+    public bool IsLogoutCommand()
     {
         return _name == "LOGOUT";
+    }
+
+    public bool IsBlankCommand()
+    {
+        return _name == "";
     }
     
     public override bool Equals(object obj)
