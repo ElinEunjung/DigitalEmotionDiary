@@ -7,7 +7,6 @@ namespace DigitalEmotionDiary.UI
 	public class UserInterface
 	{
 		private readonly LoginService _loginService;
-		private readonly UserService _userService;
 		private long _loggedInUserId = -1L;
 
 		private const String WRITE_COMMAND = "WRITE";
@@ -36,12 +35,10 @@ namespace DigitalEmotionDiary.UI
 
 		public UserInterface(
 			LoginService loginService,
-			UserService userService,
 			DiaryEntryService diaryEntryService
 		)
 		{
 			_loginService = loginService;
-			_userService = userService;
 			_diaryEntryService = diaryEntryService;
 		}
 

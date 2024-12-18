@@ -21,7 +21,7 @@ namespace DigitalEmotionDiary
 			
 			var loginService = new LoginService(userService);
 
-			var userInterface = new UserInterface(loginService, userService, diaryEntryService);
+			var userInterface = new UserInterface(loginService, diaryEntryService);
 			userInterface.Show();
 		}	
 	}
