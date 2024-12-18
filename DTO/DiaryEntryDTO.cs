@@ -1,9 +1,5 @@
-﻿using DigitalEmotionDiary.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using DigitalEmotionDiary.Models;
 
 namespace DigitalEmotionDiary.DTO
 {
@@ -27,5 +23,18 @@ namespace DigitalEmotionDiary.DTO
 		public int CommentCount { get; set; }
 		public int LikeCount { get; set; }
 
+		public static DiaryEntryDTO FromDiaryEntry(DiaryEntry diaryEntry)
+		{
+			DiaryEntryDTO entryDTO = new DiaryEntryDTO();
+			entryDTO.Id = diaryEntry.Id;
+			entryDTO.Title = diaryEntry.Title;
+			entryDTO.Content = diaryEntry.Content;
+			entryDTO.CreatedAt = diaryEntry.CreatedAt;
+			entryDTO.IsPublic = diaryEntry.IsPublic;
+			entryDTO.UserId = diaryEntry.UserId;
+			entryDTO.EmotionId = diaryEntry.EmotionId;
+			entryDTO.ImageId = diaryEntry.ImageId;
+			return entryDTO;
+		}
 	}
 }

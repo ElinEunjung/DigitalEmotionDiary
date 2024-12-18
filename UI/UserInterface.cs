@@ -1,6 +1,7 @@
 ﻿using DigitalEmotionDiary.DTO;
 using DigitalEmotionDiary.Models;
 using DigitalEmotionDiary.Services;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace DigitalEmotionDiary.UI
 {
@@ -13,6 +14,7 @@ namespace DigitalEmotionDiary.UI
     	private const String GET_COMMAND = "GET";
 		private const String GET_ALL_COMMAND = "GET_ALL";
 		private const String GET_BY_COLOR_COMMAND = "GET_BY_COLOR";
+		private const String UPDATE_COMMAND = "UPDATE";
     	private const String DELETE_COMMAND = "DELETE";
 		private const String HELP_COMMAND = "HELP";
 		private const String LOGOUT_COMMAND = "LOGOUT";
@@ -26,6 +28,7 @@ namespace DigitalEmotionDiary.UI
 			{GET_COMMAND, new Command(GET_COMMAND, 1)},
 			{GET_ALL_COMMAND, new Command(GET_ALL_COMMAND, 0)},
 			{GET_BY_COLOR_COMMAND, new Command(GET_BY_COLOR_COMMAND, 1)},
+			{UPDATE_COMMAND, new Command(UPDATE_COMMAND, 3)},
 			{WRITE_COMMAND, new Command(WRITE_COMMAND, 4)},
 			{DELETE_COMMAND, new Command(DELETE_COMMAND, 1)},
 			{HELP_COMMAND, new Command(HELP_COMMAND, 0)},
@@ -63,16 +66,17 @@ namespace DigitalEmotionDiary.UI
 		private void DisplayMainMenu()
 		{
 			Console.WriteLine("MENU");
-			Console.WriteLine("-----------------------------------------------------");
+			Console.WriteLine("-------------------------------------------------------------");
 			Console.WriteLine("WRITE          - Write entry to Diary");
 			Console.WriteLine("DELETE         - Delete entry from Diary");
 			Console.WriteLine("GET            - Get a specific entry from the Diary");
 			Console.WriteLine("GET_ALL        - Get all entries from the Diary");
 			Console.WriteLine("GET_BY_COLOR   - Get entry by background color");
+			Console.WriteLine("UPDATE         - Update diary entry(title,content or emotion)");
 			Console.WriteLine("HELP           - Display this menu");
 			Console.WriteLine("LOGOUT         - Logout current user");
 			Console.WriteLine("QUIT           - Exit program");
-			Console.WriteLine("-----------------------------------------------------");
+			Console.WriteLine("-------------------------------------------------------------");
 		}
 
 		private bool GetInputFromUser()
@@ -138,6 +142,9 @@ namespace DigitalEmotionDiary.UI
 				case GET_BY_COLOR_COMMAND :
 					GetEntryByColor(command.GetArguments());
 					break;
+				case UPDATE_COMMAND :
+					UpdateDiaryEntry(command.GetArguments());
+					break;
 				case LOGOUT_COMMAND :
 					Logout();
 					break;
@@ -156,6 +163,16 @@ namespace DigitalEmotionDiary.UI
 			{
 				Console.WriteLine("Error: Unrecognized command " + command.GetName());
 				return false;
+			}
+			if (command.IsUpdateCommand())
+			{
+				String updateOption = command.GetArguments()[1];
+				if (!new String[] {"TITLE", "CONTENT", "EMOTION"}.Any(updateOption.Contains))
+				{
+					Console.WriteLine("Error: Invalid UPDATE option: " + updateOption);
+					return false;
+				}
+				
 			}
 			return true;
 		}
@@ -199,7 +216,31 @@ namespace DigitalEmotionDiary.UI
 		{
 			var entriesByColor = _diaryEntryService.GetEntryByColor(_loggedInUserId, arguments[0]);
 			printEntries(entriesByColor);
+		}
 
+		private void UpdateDiaryEntry(String[] arguments)
+		{
+			long diaryEntryId = long.Parse(arguments[0]);
+			DiaryEntry existingEntry = _diaryEntryService.GetDiaryEntry(_loggedInUserId, diaryEntryId);
+			if (existingEntry == null) {
+				Console.WriteLine("Error: Update failed. Could not find entry with id " + diaryEntryId + " on user " + _loggedInUserId);
+				return;
+			}
+			DiaryEntryDTO entryDTO = DiaryEntryDTO.FromDiaryEntry(existingEntry);
+
+			switch (arguments[1])
+			{
+				case "TITLE" :
+					entryDTO.Title = arguments[2];
+					break;
+				case "CONTENT" :
+					entryDTO.Content = arguments[2];
+					break;
+				case "EMOTION" :
+					entryDTO.EmotionId = int.Parse(arguments[2]);
+					break;
+			}
+			_diaryEntryService.UpdateDiaryEntry(_loggedInUserId, diaryEntryId, entryDTO);
 		}
 
 		private void DeleteDiaryEntry(String[] arguments)

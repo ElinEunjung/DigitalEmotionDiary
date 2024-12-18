@@ -33,6 +33,11 @@ class Command
     {
         return _name == "";
     }
+
+    public bool IsUpdateCommand()
+    {
+        return _name == "UPDATE";
+    }
     
     public override bool Equals(object obj)
     {        
