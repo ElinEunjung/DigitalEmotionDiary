@@ -80,6 +80,96 @@ namespace DigitalEmotionDiary.Models.Configuration
 					ImageId = 3,
 					UserId = 2,
 					EmotionId = 2,
+				},
+				new DiaryEntry
+				{
+					Id = 4,
+					Title = "Kimchi day",
+					Content = "Time to make kimchi for next year, I'm ready for the war!!",
+					CreatedAt = DateTime.UtcNow,
+					IsPublic = true,
+					UserId = 1,
+					EmotionId = 1,
+				},
+				new DiaryEntry
+				{
+					Id = 5,
+					Title = "Trip to Jeju",
+					Content = "It's our family's yearly trip. Getting exceited!",
+					CreatedAt = DateTime.UtcNow,
+					IsPublic = true,
+					UserId = 1,
+					EmotionId = 1,
+				},
+				new DiaryEntry
+				{
+					Id = 6,
+					Title = "Sickness",
+					Content = "It's awful to get sick while I'm traveling.",
+					CreatedAt = DateTime.UtcNow,
+					IsPublic = false,
+					UserId = 2,
+					EmotionId = 7,
+				},
+				new DiaryEntry
+				{
+					Id = 7,
+					Title = "Party",
+					Content = "We live only once in our life. Let's party today! yay!",
+					CreatedAt = DateTime.UtcNow,
+					IsPublic = true,
+					UserId = 2,
+					EmotionId = 2,
+				},
+				new DiaryEntry
+				{
+					Id = 8,
+					Title = "Shopping",
+					Content = "So exicted, I'm in the middle of shopping heaven!",
+					CreatedAt = DateTime.UtcNow,
+					IsPublic = true,
+					UserId = 1,
+					EmotionId = 2,
+				},
+				new DiaryEntry
+				{
+					Id = 9,
+					Title = "Chirstmas",
+					Content = "So exicted, I'm in the middle of shopping heaven!",
+					CreatedAt = DateTime.UtcNow,
+					IsPublic = true,
+					UserId = 1,
+					EmotionId = 2,
+				},
+				new DiaryEntry
+				{
+					Id = 10,
+					Title = "Oyster",
+					Content = "So exicted, I'm in the middle of shopping heaven!",
+					CreatedAt = DateTime.UtcNow,
+					IsPublic = true,
+					UserId = 1,
+					EmotionId = 2,
+				},
+				new DiaryEntry
+				{
+					Id = 11,
+					Title = "Riga, my home",
+					Content = "Food in Riga is best in my opinion!",
+					CreatedAt = DateTime.UtcNow,
+					IsPublic = true,
+					UserId = 2,
+					EmotionId = 2,
+				},
+				new DiaryEntry
+				{
+					Id = 12,
+					Title = "Healthy life",
+					Content = "work out everyday is so important. I don't want to get sick...",
+					CreatedAt = DateTime.UtcNow,
+					IsPublic = false,
+					UserId = 2,
+					EmotionId = 8,
 				}
 			);
 		}
