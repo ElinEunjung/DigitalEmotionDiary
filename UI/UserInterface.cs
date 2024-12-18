@@ -183,7 +183,9 @@ namespace DigitalEmotionDiary.UI
 			var nrOfArgumenntsInValidCommand = validCommands[command.GetName()].GetNrOfArguments();
 			if (nrOfArgumentsInGivenCommand != nrOfArgumenntsInValidCommand)
 			{
-				Console.WriteLine("Number of arguments given"  + "(" + nrOfArgumentsInGivenCommand + ")" + "in command " + command.GetName() + " differ from the valid number of arguments: " + nrOfArgumenntsInValidCommand);
+				Console.WriteLine("Number of arguments given"  + "(" + nrOfArgumentsInGivenCommand + ")" 
+					+ "in command " + command.GetName() + " differ from the valid number of arguments: " 
+					+ nrOfArgumenntsInValidCommand);
 				return false;
 			}
 			return true;
